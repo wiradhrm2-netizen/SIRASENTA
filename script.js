@@ -1,908 +1,959 @@
-document.addEventListener("DOMContentLoaded", function () {
-
-    const form = document.getElementById("analysisForm");
-
-    if (!form) return;
-
-
-    form.addEventListener("submit", function (event) {
-
-        event.preventDefault();
+/* =========================================================
+   SIRASENTA
+   Smart Waste Decision System
+   Core MCDA Engine
+========================================================= */
 
 
-        /* =========================================
-           1. AMBIL DATA FORM
-        ========================================= */
+/* =========================================================
+   DATABASE ALTERNATIF
+========================================================= */
 
-        const formData = new FormData(form);
+const SIRASENTA_ALTERNATIVES = [
 
-        const input = Object.fromEntries(
-            formData.entries()
-        );
+    {
+        id: "pakan-fermentasi",
 
+        name: "Pakan Ternak Fermentasi",
 
-        /* =========================================
-           2. CEK BOBOT
-        ========================================= */
+        category: "Biokonversi",
 
-        const totalWeight =
-            Number(input.weightEconomic || 0) +
-            Number(input.weightEnvironment || 0) +
-            Number(input.weightTechnical || 0) +
-            Number(input.weightCircularity || 0) +
-            Number(input.weightSocial || 0);
+        icon: "🐄",
 
+        scores: {
+            economic: 88,
+            environment: 94,
+            technical: 78,
+            circularity: 97,
+            social: 89
+        },
 
-        if (totalWeight !== 100) {
+        requirements: {
+            budget: "sedang",
+            technology: "sedang",
+            land: "rendah"
+        },
 
-            alert(
-                `Total bobot harus 100%. Saat ini ${totalWeight}%.`
-            );
+        description:
+            "Pemanfaatan residu organik sebagai bahan pakan melalui proses pengolahan dan fermentasi.",
 
-            return;
-        }
+        process: [
+            "Pemilahan bahan baku",
+            "Pengurangan kadar air",
+            "Pencacahan",
+            "Fermentasi",
+            "Pengeringan",
+            "Validasi kualitas dan keamanan",
+            "Pemanfaatan sebagai pakan"
+        ],
 
+        risks: [
+            "Kandungan nutrisi harus divalidasi.",
+            "Bahan harus bebas dari kontaminan berbahaya.",
+            "Kadar air dan penyimpanan perlu dikontrol."
+        ],
 
-        /* =========================================
-           3. DATABASE ALTERNATIF
-        ========================================= */
-
-        const alternatives = [
-
+        evidence: [
             {
-                id: "pakan-fermentasi",
+                title:
+                    "Soybean curd residue as a potential feed resource",
 
-                name:
-                    "Pakan Ternak Fermentasi",
+                journal:
+                    "Waste Management & Research",
 
-                category:
-                    "Biokonversi",
+                year:
+                    2020,
 
-                icon:
-                    "🐄",
-
-                scores: {
-                    economic: 88,
-                    environment: 94,
-                    technical: 78,
-                    circularity: 97,
-                    social: 89
-                },
-
-                requirements: {
-                    budget: "sedang",
-                    technology: "sedang",
-                    land: "rendah"
-                },
-
-                description:
-                    "Pemanfaatan residu organik sebagai bahan pakan melalui proses pengolahan dan fermentasi.",
-
-                process: [
-
-                    "Pemilahan residu",
-
-                    "Pengurangan kadar air",
-
-                    "Pencacahan",
-
-                    "Fermentasi",
-
-                    "Pengeringan",
-
-                    "Validasi keamanan",
-
-                    "Pemanfaatan sebagai pakan"
-
-                ],
-
-                risks: [
-
-                    "Kualitas nutrisi harus divalidasi.",
-
-                    "Penyimpanan harus dikontrol.",
-
-                    "Pengujian keamanan diperlukan."
-
-                ],
-
-                references: [
-
-                    {
-                        title:
-                            "Soybean curd residue as a potential feed resource",
-
-                        journal:
-                            "Waste Management & Research",
-
-                        year:
-                            2020
-                    }
-
-                ]
-
-            },
+                relevance:
+                    "Residu pengolahan kedelai seperti ampas tahu berpotensi dimanfaatkan sebagai sumber bahan pakan setelah melalui pengolahan yang sesuai."
+            }
+        ]
+    },
 
 
+    {
+        id: "kompos",
+
+        name: "Kompos Organik",
+
+        category: "Daur Ulang Organik",
+
+        icon: "🌱",
+
+        scores: {
+            economic: 75,
+            environment: 96,
+            technical: 90,
+            circularity: 92,
+            social: 85
+        },
+
+        requirements: {
+            budget: "rendah",
+            technology: "rendah",
+            land: "sedang"
+        },
+
+        description:
+            "Pengolahan limbah organik menjadi kompos untuk meningkatkan pemanfaatan kembali sumber daya organik.",
+
+        process: [
+            "Pemilahan",
+            "Pencacahan",
+            "Pencampuran",
+            "Dekomposisi",
+            "Pematangan",
+            "Pengemasan"
+        ],
+
+        risks: [
+            "Membutuhkan area pengomposan.",
+            "Kadar air perlu dikontrol.",
+            "Proses membutuhkan waktu pematangan."
+        ],
+
+        evidence: [
             {
-                id: "kompos",
+                title:
+                    "Composting of organic waste and resource recovery",
 
-                name:
-                    "Kompos Organik",
+                journal:
+                    "Bioresource Technology",
 
-                category:
-                    "Daur Ulang Organik",
+                year:
+                    2020,
 
-                icon:
-                    "🌱",
-
-                scores: {
-                    economic: 75,
-                    environment: 96,
-                    technical: 90,
-                    circularity: 92,
-                    social: 85
-                },
-
-                requirements: {
-                    budget: "rendah",
-                    technology: "rendah",
-                    land: "sedang"
-                },
-
-                description:
-                    "Pengolahan limbah organik menjadi kompos.",
-
-                process: [
-
-                    "Pemilahan",
-
-                    "Pencacahan",
-
-                    "Pencampuran",
-
-                    "Dekomposisi",
-
-                    "Pematangan"
-
-                ],
-
-                risks: [
-
-                    "Membutuhkan ruang.",
-
-                    "Kadar air perlu dikontrol."
-
-                ],
-
-                references: [
-
-                    {
-                        title:
-                            "Composting of organic waste and resource recovery",
-
-                        journal:
-                            "Bioresource Technology",
-
-                        year:
-                            2020
-                    }
-
-                ]
-
-            },
+                relevance:
+                    "Pengomposan merupakan salah satu pendekatan pemulihan sumber daya dari limbah organik."
+            }
+        ]
+    },
 
 
+    {
+        id: "biogas",
+
+        name: "Produksi Biogas",
+
+        category: "Energi Terbarukan",
+
+        icon: "⚡",
+
+        scores: {
+            economic: 82,
+            environment: 95,
+            technical: 70,
+            circularity: 94,
+            social: 80
+        },
+
+        requirements: {
+            budget: "tinggi",
+            technology: "tinggi",
+            land: "sedang"
+        },
+
+        description:
+            "Konversi limbah organik melalui proses anaerobic digestion untuk menghasilkan biogas sebagai sumber energi alternatif.",
+
+        process: [
+            "Pengumpulan limbah",
+            "Pra-pengolahan",
+            "Pengisian digester",
+            "Anaerobic digestion",
+            "Pengumpulan biogas",
+            "Pemanfaatan energi"
+        ],
+
+        risks: [
+            "Investasi awal relatif tinggi.",
+            "Membutuhkan instalasi digester.",
+            "Parameter proses harus dikontrol."
+        ],
+
+        evidence: [
             {
-                id: "biogas",
+                title:
+                    "Anaerobic digestion of agro-industrial waste",
 
-                name:
-                    "Produksi Biogas",
+                journal:
+                    "Renewable Energy",
 
-                category:
-                    "Energi Terbarukan",
+                year:
+                    2021,
 
-                icon:
-                    "⚡",
-
-                scores: {
-                    economic: 82,
-                    environment: 95,
-                    technical: 70,
-                    circularity: 94,
-                    social: 80
-                },
-
-                requirements: {
-                    budget: "tinggi",
-                    technology: "tinggi",
-                    land: "sedang"
-                },
-
-                description:
-                    "Konversi limbah organik melalui anaerobic digestion untuk menghasilkan biogas.",
-
-                process: [
-
-                    "Pengumpulan",
-
-                    "Pra-pengolahan",
-
-                    "Pengisian digester",
-
-                    "Anaerobic digestion",
-
-                    "Pengumpulan biogas",
-
-                    "Pemanfaatan energi"
-
-                ],
-
-                risks: [
-
-                    "Investasi awal tinggi.",
-
-                    "Membutuhkan instalasi digester."
-
-                ],
-
-                references: [
-
-                    {
-                        title:
-                            "Anaerobic digestion of agro-industrial waste",
-
-                        journal:
-                            "Renewable Energy",
-
-                        year:
-                            2021
-                    }
-
-                ]
-
-            },
+                relevance:
+                    "Anaerobic digestion dapat digunakan untuk memulihkan energi dari berbagai jenis limbah organik."
+            }
+        ]
+    },
 
 
+    {
+        id: "briket",
+
+        name: "Briket Biomassa",
+
+        category: "Energi Biomassa",
+
+        icon: "🔥",
+
+        scores: {
+            economic: 80,
+            environment: 84,
+            technical: 78,
+            circularity: 87,
+            social: 81
+        },
+
+        requirements: {
+            budget: "sedang",
+            technology: "sedang",
+            land: "rendah"
+        },
+
+        description:
+            "Konversi biomassa kering menjadi bahan bakar padat alternatif melalui proses pengeringan, penghalusan dan pemadatan.",
+
+        process: [
+            "Pemilahan biomassa",
+            "Pengeringan",
+            "Penghalusan",
+            "Pencampuran bahan",
+            "Pencetakan",
+            "Pengeringan akhir"
+        ],
+
+        risks: [
+            "Kadar air harus dikontrol.",
+            "Membutuhkan mesin pencetak.",
+            "Kualitas bahan bakar perlu diuji."
+        ],
+
+        evidence: [
             {
-                id: "briket",
+                title:
+                    "Biomass waste conversion into solid fuel",
 
-                name:
-                    "Briket Biomassa",
+                journal:
+                    "Renewable and Sustainable Energy Reviews",
 
-                category:
-                    "Energi Biomassa",
+                year:
+                    2020,
 
-                icon:
-                    "🔥",
-
-                scores: {
-                    economic: 80,
-                    environment: 84,
-                    technical: 78,
-                    circularity: 87,
-                    social: 81
-                },
-
-                requirements: {
-                    budget: "sedang",
-                    technology: "sedang",
-                    land: "rendah"
-                },
-
-                description:
-                    "Konversi biomassa kering menjadi bahan bakar padat alternatif.",
-
-                process: [
-
-                    "Pemilahan biomassa",
-
-                    "Pengeringan",
-
-                    "Penghalusan",
-
-                    "Pencampuran",
-
-                    "Pencetakan",
-
-                    "Pengeringan akhir"
-
-                ],
-
-                risks: [
-
-                    "Kadar air harus dikontrol.",
-
-                    "Membutuhkan mesin pencetak."
-
-                ],
-
-                references: [
-
-                    {
-                        title:
-                            "Biomass waste conversion into solid fuel",
-
-                        journal:
-                            "Renewable and Sustainable Energy Reviews",
-
-                        year:
-                            2020
-                    }
-
-                ]
-
-            },
+                relevance:
+                    "Biomassa residu dapat dikonversi menjadi bahan bakar padat untuk meningkatkan nilai guna limbah."
+            }
+        ]
+    },
 
 
+    {
+        id: "pupuk-cair",
+
+        name: "Pupuk Organik Cair",
+
+        category: "Bioproses",
+
+        icon: "💧",
+
+        scores: {
+            economic: 83,
+            environment: 90,
+            technical: 84,
+            circularity: 91,
+            social: 87
+        },
+
+        requirements: {
+            budget: "rendah",
+            technology: "sedang",
+            land: "rendah"
+        },
+
+        description:
+            "Pengolahan bahan organik melalui fermentasi menjadi pupuk organik cair.",
+
+        process: [
+            "Pemisahan bahan",
+            "Pencacahan",
+            "Pencampuran",
+            "Fermentasi",
+            "Penyaringan",
+            "Pengujian kualitas"
+        ],
+
+        risks: [
+            "Kualitas dipengaruhi kondisi fermentasi.",
+            "Pengendalian bau diperlukan.",
+            "Produk perlu diuji sebelum digunakan."
+        ],
+
+        evidence: [
             {
-                id: "pupuk-cair",
+                title:
+                    "Organic waste valorization through liquid fertilizer production",
 
-                name:
-                    "Pupuk Organik Cair",
+                journal:
+                    "Journal of Environmental Management",
 
-                category:
-                    "Bioproses",
+                year:
+                    2021,
 
-                icon:
-                    "💧",
-
-                scores: {
-                    economic: 83,
-                    environment: 90,
-                    technical: 84,
-                    circularity: 91,
-                    social: 87
-                },
-
-                requirements: {
-                    budget: "rendah",
-                    technology: "sedang",
-                    land: "rendah"
-                },
-
-                description:
-                    "Pengolahan bahan organik menjadi pupuk organik cair melalui fermentasi.",
-
-                process: [
-
-                    "Pemisahan",
-
-                    "Pencacahan",
-
-                    "Pencampuran",
-
-                    "Fermentasi",
-
-                    "Penyaringan",
-
-                    "Pengujian kualitas"
-
-                ],
-
-                risks: [
-
-                    "Kualitas dipengaruhi proses fermentasi.",
-
-                    "Pengendalian bau diperlukan."
-
-                ],
-
-                references: [
-
-                    {
-                        title:
-                            "Organic waste valorization through liquid fertilizer production",
-
-                        journal:
-                            "Journal of Environmental Management",
-
-                        year:
-                            2021
-                    }
-
-                ]
-
+                relevance:
+                    "Fermentasi limbah organik dapat menghasilkan produk bernilai guna seperti pupuk organik cair."
             }
+        ]
+    }
 
-        ];
-
-
-
-        /* =========================================
-           4. BOBOT MCDA
-        ========================================= */
-
-        const weights = {
-
-            economic:
-                Number(input.weightEconomic) / 100,
-
-            environment:
-                Number(input.weightEnvironment) / 100,
-
-            technical:
-                Number(input.weightTechnical) / 100,
-
-            circularity:
-                Number(input.weightCircularity) / 100,
-
-            social:
-                Number(input.weightSocial) / 100
-
-        };
+];
 
 
 
-        /* =========================================
-           5. PENYESUAIAN KONDISI USAHA
-        ========================================= */
+/* =========================================================
+   GET FORM DATA
+========================================================= */
 
-        function calculateScore(
-            alternative
-        ) {
+function getAnalysisInput() {
 
-            let scores = {
-                ...alternative.scores
-            };
+    const form =
+        document.getElementById("analysisForm");
 
+    if (!form) {
+        return null;
+    }
 
-            /*
-            Budget
-            */
+    const formData =
+        new FormData(form);
 
-            if (
-                input.budget === "rendah" &&
-                alternative.requirements.budget === "tinggi"
-            ) {
-
-                scores.economic -= 15;
-
-                scores.technical -= 5;
-
-            }
+    return Object.fromEntries(
+        formData.entries()
+    );
+}
 
 
-            if (
-                input.budget === "rendah" &&
-                alternative.requirements.budget === "sedang"
-            ) {
 
-                scores.economic -= 5;
+/* =========================================================
+   CALCULATE MCDA
+========================================================= */
 
-            }
+function calculateMCDA(input) {
 
+    const weights = {
 
-            /*
-            Teknologi
-            */
+        economic:
+            Number(input.weightEconomic || 0) / 100,
 
-            if (
-                input.technology === "rendah" &&
-                alternative.requirements.technology === "tinggi"
-            ) {
+        environment:
+            Number(input.weightEnvironment || 0) / 100,
 
-                scores.technical -= 15;
+        technical:
+            Number(input.weightTechnical || 0) / 100,
 
-            }
+        circularity:
+            Number(input.weightCircularity || 0) / 100,
 
+        social:
+            Number(input.weightSocial || 0) / 100
 
-            if (
-                input.technology === "rendah" &&
-                alternative.requirements.technology === "sedang"
-            ) {
-
-                scores.technical -= 5;
-
-            }
+    };
 
 
-            /*
-            Lahan
-            */
+    const ranking =
+        SIRASENTA_ALTERNATIVES.map(
+            alternative => {
 
-            if (
-                input.landAvailability === "rendah" &&
-                alternative.requirements.land === "sedang"
-            ) {
-
-                scores.technical -= 8;
-
-            }
+                const scores = {
+                    ...alternative.scores
+                };
 
 
-            /*
-            Kandungan organik
-            */
-
-            if (
-                input.organicContent === "tinggi"
-            ) {
+                /* =====================================
+                   KONDISI INVESTASI
+                ===================================== */
 
                 if (
-                    alternative.id ===
-                    "pakan-fermentasi"
+                    input.budget === "rendah" &&
+                    alternative.requirements.budget === "tinggi"
                 ) {
 
-                    scores.circularity += 3;
+                    scores.economic -= 15;
+                    scores.technical -= 5;
 
                 }
 
+
                 if (
-                    alternative.id ===
-                    "biogas"
+                    input.budget === "rendah" &&
+                    alternative.requirements.budget === "sedang"
                 ) {
 
-                    scores.environment += 3;
+                    scores.economic -= 5;
 
                 }
 
-            }
 
-
-            /*
-            Kadar air tinggi
-            */
-
-            if (
-                input.moisture === "tinggi"
-            ) {
+                /* =====================================
+                   KESIAPAN TEKNOLOGI
+                ===================================== */
 
                 if (
-                    alternative.id ===
-                    "briket"
-                ) {
-
-                    scores.technical -= 10;
-
-                }
-
-                if (
-                    alternative.id ===
-                    "biogas"
-                ) {
-
-                    scores.technical += 4;
-
-                }
-
-            }
-
-
-            /*
-            Air limbah
-            */
-
-            if (
-                input.wasteType ===
-                "air-limbah-tahu"
-            ) {
-
-                if (
-                    alternative.id ===
-                    "biogas"
-                ) {
-
-                    scores.environment += 5;
-
-                }
-
-                if (
-                    alternative.id ===
-                    "briket"
+                    input.technology === "rendah" &&
+                    alternative.requirements.technology === "tinggi"
                 ) {
 
                     scores.technical -= 15;
 
                 }
 
-            }
-
-
-            /*
-            Ampas tahu
-            */
-
-            if (
-                input.wasteType ===
-                "ampas-tahu"
-            ) {
 
                 if (
-                    alternative.id ===
-                    "pakan-fermentasi"
+                    input.technology === "rendah" &&
+                    alternative.requirements.technology === "sedang"
+                ) {
+
+                    scores.technical -= 5;
+
+                }
+
+
+                /* =====================================
+                   LAHAN
+                ===================================== */
+
+                if (
+                    input.landAvailability === "rendah" &&
+                    alternative.requirements.land === "sedang"
+                ) {
+
+                    scores.technical -= 8;
+
+                }
+
+
+                /* =====================================
+                   AMPAS TAHU
+                ===================================== */
+
+                if (
+                    input.wasteType === "ampas-tahu" &&
+                    alternative.id === "pakan-fermentasi"
                 ) {
 
                     scores.circularity += 5;
-
                     scores.economic += 3;
 
                 }
 
-            }
 
-
-            /*
-            Kondisi terkontaminasi
-            */
-
-            if (
-                input.wasteCondition ===
-                "terkontaminasi"
-            ) {
+                /* =====================================
+                   AIR LIMBAH TAHU
+                ===================================== */
 
                 if (
-                    alternative.id ===
-                    "pakan-fermentasi"
+                    input.wasteType === "air-limbah-tahu"
                 ) {
 
-                    scores.technical -= 20;
+                    if (
+                        alternative.id === "biogas"
+                    ) {
 
-                    scores.social -= 10;
+                        scores.environment += 5;
+
+                    }
+
+
+                    if (
+                        alternative.id === "briket"
+                    ) {
+
+                        scores.technical -= 15;
+
+                    }
 
                 }
+
+
+                /* =====================================
+                   ORGANIK TINGGI
+                ===================================== */
+
+                if (
+                    input.organicContent === "tinggi"
+                ) {
+
+                    if (
+                        alternative.id === "pakan-fermentasi"
+                    ) {
+
+                        scores.circularity += 3;
+
+                    }
+
+
+                    if (
+                        alternative.id === "biogas"
+                    ) {
+
+                        scores.environment += 3;
+
+                    }
+
+                }
+
+
+                /* =====================================
+                   KADAR AIR
+                ===================================== */
+
+                if (
+                    input.moisture === "tinggi"
+                ) {
+
+                    if (
+                        alternative.id === "briket"
+                    ) {
+
+                        scores.technical -= 10;
+
+                    }
+
+
+                    if (
+                        alternative.id === "biogas"
+                    ) {
+
+                        scores.technical += 4;
+
+                    }
+
+                }
+
+
+                /* =====================================
+                   KONTAMINASI
+                ===================================== */
+
+                if (
+                    input.wasteCondition ===
+                    "terkontaminasi"
+                ) {
+
+                    if (
+                        alternative.id ===
+                        "pakan-fermentasi"
+                    ) {
+
+                        scores.technical -= 20;
+                        scores.social -= 10;
+
+                    }
+
+                }
+
+
+                /* =====================================
+                   NORMALISASI
+                ===================================== */
+
+                Object.keys(scores).forEach(
+                    key => {
+
+                        scores[key] =
+                            Math.max(
+                                0,
+                                Math.min(
+                                    100,
+                                    scores[key]
+                                )
+                            );
+
+                    }
+                );
+
+
+                /* =====================================
+                   WEIGHTED SUM MODEL
+                ===================================== */
+
+                const finalScore = Math.round(
+
+                    scores.economic *
+                    weights.economic
+
+                    +
+
+                    scores.environment *
+                    weights.environment
+
+                    +
+
+                    scores.technical *
+                    weights.technical
+
+                    +
+
+                    scores.circularity *
+                    weights.circularity
+
+                    +
+
+                    scores.social *
+                    weights.social
+
+                );
+
+
+                return {
+
+                    ...alternative,
+
+                    adjustedScores:
+                        scores,
+
+                    finalScore:
+                        finalScore
+
+                };
+
+            }
+        );
+
+
+    /* =============================================
+       SORTING
+    ============================================= */
+
+    ranking.sort(
+        (a, b) =>
+            b.finalScore -
+            a.finalScore
+    );
+
+
+    /* =============================================
+       RANK
+    ============================================= */
+
+    ranking.forEach(
+        (item, index) => {
+
+            item.rank =
+                index + 1;
+
+        }
+    );
+
+
+    return {
+
+        weights,
+
+        ranking
+
+    };
+
+}
+
+
+
+/* =========================================================
+   GENERATE RESULT
+========================================================= */
+
+function generateResult(input) {
+
+    const mcda =
+        calculateMCDA(input);
+
+
+    const winner =
+        mcda.ranking[0];
+
+
+    const second =
+        mcda.ranking[1];
+
+
+    const difference =
+        winner.finalScore -
+        second.finalScore;
+
+
+    let confidence =
+        75 + difference;
+
+
+    confidence =
+        Math.max(
+            70,
+            Math.min(
+                98,
+                confidence
+            )
+        );
+
+
+    let level;
+
+
+    if (
+        winner.finalScore >= 85
+    ) {
+
+        level =
+            "Sangat Direkomendasikan";
+
+    }
+
+    else if (
+        winner.finalScore >= 75
+    ) {
+
+        level =
+            "Direkomendasikan";
+
+    }
+
+    else if (
+        winner.finalScore >= 65
+    ) {
+
+        level =
+            "Cukup Direkomendasikan";
+
+    }
+
+    else {
+
+        level =
+            "Perlu Kajian Lebih Lanjut";
+
+    }
+
+
+    return {
+
+        timestamp:
+            new Date().toISOString(),
+
+        input:
+            input,
+
+        weights:
+            mcda.weights,
+
+        confidence:
+            confidence,
+
+        recommendation: {
+
+            alternativeId:
+                winner.id,
+
+            alternativeName:
+                winner.name,
+
+            score:
+                winner.finalScore,
+
+            rank:
+                winner.rank,
+
+            level:
+                level,
+
+            explanation:
+                `${winner.name} memperoleh skor tertinggi sebesar ${winner.finalScore}/100 berdasarkan pembobotan MCDA terhadap aspek ekonomi, lingkungan, teknis, sirkularitas, dan sosial.`
+
+        },
+
+        ranking:
+            mcda.ranking
+
+    };
+
+}
+
+
+
+/* =========================================================
+   SAVE RESULT
+========================================================= */
+
+function saveResult(result) {
+
+    localStorage.setItem(
+        "sirasenta_result",
+        JSON.stringify(result)
+    );
+
+
+    /*
+       Key lama tetap disimpan
+       agar kompatibel dengan sistem sebelumnya.
+    */
+
+    localStorage.setItem(
+        "sirasentaAnalysis",
+        JSON.stringify(result.input)
+    );
+
+}
+
+
+
+/* =========================================================
+   GET LATEST RESULT
+========================================================= */
+
+function getLatestResult() {
+
+    const raw =
+        localStorage.getItem(
+            "sirasenta_result"
+        );
+
+
+    if (!raw) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        return JSON.parse(raw);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Data SIRASENTA rusak:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   ANALYSIS PAGE
+========================================================= */
+
+function initializeAnalysis() {
+
+    const form =
+        document.getElementById(
+            "analysisForm"
+        );
+
+
+    if (!form) {
+
+        return;
+
+    }
+
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            const input =
+                getAnalysisInput();
+
+
+            if (!input) {
+
+                return;
 
             }
 
 
-            /*
-            Batasi 0–100
-            */
+            /* =====================================
+               VALIDATE WEIGHTS
+            ===================================== */
 
-            Object.keys(scores).forEach(
-                key => {
+            const total =
 
-                    scores[key] =
-                        Math.max(
-                            0,
-                            Math.min(
-                                100,
-                                scores[key]
-                            )
-                        );
-
-                }
-            );
-
-
-            /*
-            Weighted Sum Model
-            */
-
-            const finalScore = Math.round(
-
-                scores.economic *
-                weights.economic
+                Number(input.weightEconomic || 0)
 
                 +
 
-                scores.environment *
-                weights.environment
+                Number(input.weightEnvironment || 0)
 
                 +
 
-                scores.technical *
-                weights.technical
+                Number(input.weightTechnical || 0)
 
                 +
 
-                scores.circularity *
-                weights.circularity
+                Number(input.weightCircularity || 0)
 
                 +
 
-                scores.social *
-                weights.social
-
-            );
+                Number(input.weightSocial || 0);
 
 
-            return {
+            if (total !== 100) {
 
-                ...alternative,
+                alert(
+                    `Total bobot harus 100%. Saat ini ${total}%.`
+                );
 
-                adjustedScores:
-                    scores,
+                return;
 
-                finalScore:
-                    finalScore
-
-            };
-
-        }
+            }
 
 
+            /* =====================================
+               GENERATE
+            ===================================== */
 
-        /* =========================================
-           6. HITUNG SEMUA ALTERNATIF
-        ========================================= */
-
-        let ranking =
-            alternatives.map(
-                calculateScore
-            );
+            const result =
+                generateResult(input);
 
 
-        ranking.sort(
-            (a, b) =>
-                b.finalScore -
-                a.finalScore
-        );
+            /* =====================================
+               SAVE
+            ===================================== */
+
+            saveResult(result);
 
 
-        ranking =
-            ranking.map(
-                (item, index) => ({
+            /* =====================================
+               REDIRECT
+            ===================================== */
 
-                    ...item,
-
-                    rank:
-                        index + 1
-
-                })
-            );
-
-
-
-        /* =========================================
-           7. REKOMENDASI
-        ========================================= */
-
-        const winner =
-            ranking[0];
-
-
-        const runnerUp =
-            ranking[1];
-
-
-        const difference =
-            winner.finalScore -
-            runnerUp.finalScore;
-
-
-        let confidence =
-            75 + difference;
-
-
-        confidence =
-            Math.max(
-                70,
-                Math.min(
-                    98,
-                    confidence
-                )
-            );
-
-
-
-        let recommendationLevel;
-
-
-        if (
-            winner.finalScore >= 85
-        ) {
-
-            recommendationLevel =
-                "Sangat Direkomendasikan";
+            window.location.href =
+                "result.html";
 
         }
+    );
 
-        else if (
-            winner.finalScore >= 75
-        ) {
-
-            recommendationLevel =
-                "Direkomendasikan";
-
-        }
-
-        else if (
-            winner.finalScore >= 65
-        ) {
-
-            recommendationLevel =
-                "Cukup Direkomendasikan";
-
-        }
-
-        else {
-
-            recommendationLevel =
-                "Perlu Kajian Lebih Lanjut";
-
-        }
+}
 
 
 
-        /* =========================================
-           8. HASIL FINAL
-        ========================================= */
+/* =========================================================
+   AUTO INITIALIZE
+========================================================= */
 
-        const result = {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-            timestamp:
-                new Date().toISOString(),
+        initializeAnalysis();
 
-            input:
-                input,
-
-            weights:
-                weights,
-
-            confidence:
-                confidence,
-
-            recommendation: {
-
-                alternativeId:
-                    winner.id,
-
-                alternativeName:
-                    winner.name,
-
-                score:
-                    winner.finalScore,
-
-                rank:
-                    winner.rank,
-
-                level:
-                    recommendationLevel,
-
-                explanation:
-
-                    `${winner.name} memperoleh skor tertinggi sebesar ${winner.finalScore}/100 berdasarkan pembobotan MCDA terhadap aspek ekonomi, lingkungan, teknis, sirkularitas, dan sosial.`
-
-            },
-
-            ranking:
-                ranking
-
-        };
-
-
-
-        /* =========================================
-           9. SIMPAN
-        ========================================= */
-
-        localStorage.setItem(
-
-            "sirasenta_result",
-
-            JSON.stringify(
-                result
-            )
-
-        );
-
-
-        /*
-        Simpan juga dengan key lama
-        supaya kompatibel dengan
-        halaman lama.
-        */
-
-        localStorage.setItem(
-
-            "sirasentaAnalysis",
-
-            JSON.stringify(
-                input
-            )
-
-        );
-
-
-
-        /* =========================================
-           10. PINDAH KE RESULT
-        ========================================= */
-
-        window.location.href =
-            "result.html";
-
-    });
-
-});
+    }
+);
