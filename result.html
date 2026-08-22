@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hasil Analisis | SIRASENTA</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <span>SIRA</span>SENTA
+        </div>
+
+        <div class="nav-actions">
+
+            <a href="index.html" class="nav-back">
+                Beranda
+            </a>
+
+            <a href="analysis.html" class="nav-back">
+                Analisis Baru
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="result-container">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <section class="result-header">
+
+            <span class="section-label">
+                SIRASENTA • ANALYSIS RESULT
+            </span>
+
+            <h1>
+                Hasil Analisis Pengolahan Limbah
+            </h1>
+
+            <p>
+                Rekomendasi dihasilkan melalui pendekatan
+                Multi-Criteria Decision Analysis (MCDA)
+                berdasarkan data yang telah dimasukkan.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LOADING
+        ================================================== -->
+
+        <div id="loadingState" class="loading-box">
+
+            <div class="loader"></div>
+
+            <p>
+                Memproses hasil analisis...
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             RESULT CONTENT
+        ================================================== -->
+
+        <div id="resultContent" style="display:none;">
+
+
+            <!-- =============================================
+                 RECOMMENDATION
+            ============================================== -->
+
+            <section class="recommendation-card">
+
+                <div class="recommendation-main">
+
+
+                    <div class="recommendation-icon">
+                        ♻️
+                    </div>
+
+
+                    <div class="recommendation-text">
+
+                        <span class="result-label">
+                            REKOMENDASI UTAMA
+                        </span>
+
+                        <h2 id="winnerName">
+                            -
+                        </h2>
+
+                        <p id="winnerDescription">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="score-box">
+
+                        <span>
+                            SCORE
+                        </span>
+
+                        <strong id="winnerScore">
+                            -
+                        </strong>
+
+                        <small>
+                            / 100
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="recommendation-bottom">
+
+                    <div>
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong id="recommendationLevel">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Peringkat
+                        </span>
+
+                        <strong>
+                            #<span id="winnerRank">
+                                -
+                            </span>
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Confidence
+                        </span>
+
+                        <strong>
+                            <span id="confidence">
+                                -
+                            </span>%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 REASONS
+            ============================================== -->
+
+            <section class="result-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            DECISION INSIGHT
+                        </span>
+
+                        <h2>
+                            Mengapa alternatif ini dipilih?
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div id="reasonsContainer"
+                     class="reason-grid">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 RANKING
+            ============================================== -->
+
+            <section class="result-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            MCDA RANKING
+                        </span>
+
+                        <h2>
+                            Perbandingan Alternatif
+                        </h2>
+
+                        <p>
+                            Ranking berdasarkan weighted score
+                            dari seluruh kriteria.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="rankingContainer"
+                     class="ranking-list">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 CRITERIA BREAKDOWN
+            ============================================== -->
+
+            <section class="result-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            CRITERIA ANALYSIS
+                        </span>
+
+                        <h2>
+                            Breakdown Kriteria
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="criteria-table-wrapper">
+
+                    <table class="criteria-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Alternatif
+                                </th>
+
+                                <th>
+                                    Ekonomi
+                                </th>
+
+                                <th>
+                                    Lingkungan
+                                </th>
+
+                                <th>
+                                    Teknis
+                                </th>
+
+                                <th>
+                                    Sirkularitas
+                                </th>
+
+                                <th>
+                                    Sosial
+                                </th>
+
+                                <th>
+                                    Final
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="criteriaTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 IMPLEMENTATION
+            ============================================== -->
+
+            <section class="result-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            IMPLEMENTATION
+                        </span>
+
+                        <h2>
+                            Rekomendasi Implementasi
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div id="implementationContainer">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 RISKS
+            ============================================== -->
+
+            <section class="result-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            RISK ASSESSMENT
+                        </span>
+
+                        <h2>
+                            Risiko yang Perlu Diperhatikan
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div id="riskContainer"
+                     class="risk-grid">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 RESEARCH EVIDENCE
+            ============================================== -->
+
+            <section class="result-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            RESEARCH EVIDENCE
+                        </span>
+
+                        <h2>
+                            Referensi Penelitian
+                        </h2>
+
+                        <p>
+                            Referensi yang digunakan sebagai
+                            basis pengetahuan alternatif.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="evidenceContainer">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 INPUT SUMMARY
+            ============================================== -->
+
+            <section class="result-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            INPUT SUMMARY
+                        </span>
+
+                        <h2>
+                            Data yang Dianalisis
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div id="inputSummary"
+                     class="input-summary">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 ACTION
+            ============================================== -->
+
+            <section class="result-actions">
+
+                <a
+                    href="analysis.html"
+                    class="btn-primary"
+                >
+
+                    ← Analisis Ulang
+
+                </a>
+
+
+                <button
+                    onclick="window.print()"
+                    class="btn-secondary"
+                >
+
+                    Cetak Hasil
+
+                </button>
+
+
+                <a
+                    href="evaluation.html"
+                    class="btn-primary"
+                >
+
+                    Lanjut Evaluasi →
+
+                </a>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         SCRIPT
+    ====================================================== -->
+
+    <script src="database.js"></script>
+    <script src="script.js"></script>
+
+
+    <script>
+
+        /* =================================================
+           ELEMENTS
+        ================================================= */
+
+        const loadingState =
+            document.getElementById(
+                "loadingState"
+            );
+
+        const resultContent =
+            document.getElementById(
+                "resultContent"
+            );
+
+
+
+        /* =================================================
+           FORMAT LABEL
+        ================================================= */
+
+        function formatLabel(value) {
+
+            if (!value) {
+                return "-";
+            }
+
+            const labels = {
+
+                "kecil":
+                    "Skala Kecil",
+
+                "menengah":
+                    "Skala Menengah",
+
+                "besar":
+                    "Skala Besar",
+
+                "rendah":
+                    "Rendah",
+
+                "sedang":
+                    "Sedang",
+
+                "tinggi":
+                    "Tinggi",
+
+                "ampas-tahu":
+                    "Ampas Tahu",
+
+                "kulit-kedelai":
+                    "Kulit/Ampas Kedelai",
+
+                "air-limbah-tahu":
+                    "Air Limbah Tahu",
+
+                "campuran":
+                    "Campuran",
+
+                "tahu":
+                    "Produksi Tahu",
+
+                "tempe":
+                    "Produksi Tempe",
+
+                "tahu-tempe":
+                    "Produksi Tahu & Tempe"
+
+            };
+
+
+            return labels[value]
+                || value;
+
+        }
+
+
+
+        /* =================================================
+           RENDER RECOMMENDATION
+        ================================================= */
+
+        function renderRecommendation(
+            result
+        ) {
+
+            const recommendation =
+                result.recommendation;
+
+
+            const winner =
+                result.ranking[0];
+
+
+            document.getElementById(
+                "winnerName"
+            ).textContent =
+                recommendation
+                    ?.alternativeName
+                || winner.name;
+
+
+            document.getElementById(
+                "winnerScore"
+            ).textContent =
+                recommendation?.score
+                ?? winner.finalScore;
+
+
+            document.getElementById(
+                "winnerRank"
+            ).textContent =
+                recommendation?.rank
+                ?? 1;
+
+
+            document.getElementById(
+                "recommendationLevel"
+            ).textContent =
+                recommendation?.level
+                || "Direkomendasikan";
+
+
+            document.getElementById(
+                "confidence"
+            ).textContent =
+                result.confidence
+                ?? "-";
+
+
+            document.getElementById(
+                "winnerDescription"
+            ).textContent =
+                recommendation?.explanation
+                || winner.description
+                || "Alternatif memperoleh skor tertinggi berdasarkan parameter analisis SIRASENTA.";
+
+        }
+
+
+
+        /* =================================================
+           RENDER REASONS
+        ================================================= */
+
+        function renderReasons(
+            result
+        ) {
+
+            const container =
+                document.getElementById(
+                    "reasonsContainer"
+                );
+
+
+            const winner =
+                result.ranking[0];
+
+
+            const scores =
+                winner.adjustedScores;
+
+
+            const names = {
+
+                economic:
+                    "Efisiensi Ekonomi",
+
+                environment:
+                    "Dampak Lingkungan",
+
+                technical:
+                    "Kelayakan Teknis",
+
+                circularity:
+                    "Potensi Sirkularitas",
+
+                social:
+                    "Dampak Sosial"
+
+            };
+
+
+            container.innerHTML = "";
+
+
+            Object.entries(scores)
+
+                .sort(
+                    (a, b) =>
+                        b[1] - a[1]
+                )
+
+                .slice(0, 3)
+
+                .forEach(
+                    ([key, value]) => {
+
+                        container.innerHTML += `
+
+                            <div class="reason-card">
+
+                                <div class="reason-icon">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        ${names[key]}
+                                    </h3>
+
+                                    <strong>
+                                        ${value}/100
+                                    </strong>
+
+                                    <p>
+                                        Menjadi salah satu
+                                        faktor utama yang
+                                        mendukung posisi
+                                        alternatif ini.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+        }
+
+
+
+        /* =================================================
+           RENDER RANKING
+        ================================================= */
+
+        function renderRanking(
+            result
+        ) {
+
+            const container =
+                document.getElementById(
+                    "rankingContainer"
+                );
+
+
+            container.innerHTML = "";
+
+
+            result.ranking.forEach(
+                item => {
+
+                    const isWinner =
+                        item.rank === 1;
+
+
+                    container.innerHTML += `
+
+                        <div class="ranking-item
+                            ${isWinner ? "winner" : ""}">
+
+                            <div class="rank-number">
+
+                                #${item.rank}
+
+                            </div>
+
+
+                            <div class="rank-icon">
+
+                                ${item.icon || "♻️"}
+
+                            </div>
+
+
+                            <div class="rank-info">
+
+                                <h3>
+                                    ${item.name}
+                                </h3>
+
+                                <span>
+                                    ${item.category}
+                                </span>
+
+                            </div>
+
+
+                            <div class="rank-progress">
+
+                                <div class="progress-track">
+
+                                    <div
+                                        class="progress-fill"
+                                        style="
+                                            width:${item.finalScore}%;
+                                        "
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rank-score">
+
+                                ${item.finalScore}
+
+                                <small>
+                                    /100
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           RENDER CRITERIA TABLE
+        ================================================= */
+
+        function renderCriteriaTable(
+            result
+        ) {
+
+            const tbody =
+                document.getElementById(
+                    "criteriaTable"
+                );
+
+
+            tbody.innerHTML = "";
+
+
+            result.ranking.forEach(
+                item => {
+
+                    const score =
+                        item.adjustedScores;
+
+
+                    tbody.innerHTML += `
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    ${item.name}
+                                </strong>
+
+                            </td>
+
+                            <td>
+                                ${score.economic}
+                            </td>
+
+                            <td>
+                                ${score.environment}
+                            </td>
+
+                            <td>
+                                ${score.technical}
+                            </td>
+
+                            <td>
+                                ${score.circularity}
+                            </td>
+
+                            <td>
+                                ${score.social}
+                            </td>
+
+                            <td>
+
+                                <strong>
+                                    ${item.finalScore}
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           RENDER IMPLEMENTATION
+        ================================================= */
+
+        function renderImplementation(
+            result
+        ) {
+
+            const container =
+                document.getElementById(
+                    "implementationContainer"
+                );
+
+
+            const winner =
+                result.ranking[0];
+
+
+            if (
+                !winner.process ||
+                !winner.process.length
+            ) {
+
+                container.innerHTML = `
+                    <p>
+                        Data proses belum tersedia.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML = `
+
+                <div class="process-timeline">
+
+                    ${winner.process.map(
+                        (step, index) => `
+
+                            <div class="process-step">
+
+                                <div class="process-number">
+                                    ${index + 1}
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        ${step}
+                                    </h3>
+
+                                    <p>
+                                        Tahap ${index + 1}
+                                        dalam proses
+                                        implementasi.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        `
+                    ).join("")}
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        /* =================================================
+           RENDER RISKS
+        ================================================= */
+
+        function renderRisks(
+            result
+        ) {
+
+            const container =
+                document.getElementById(
+                    "riskContainer"
+                );
+
+
+            const winner =
+                result.ranking[0];
+
+
+            container.innerHTML = "";
+
+
+            (winner.risks || [])
+                .forEach(
+                    risk => {
+
+                        container.innerHTML += `
+
+                            <div class="risk-card">
+
+                                <div class="risk-icon">
+                                    !
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        Perhatian
+                                    </h3>
+
+                                    <p>
+                                        ${risk}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+        }
+
+
+
+        /* =================================================
+           RENDER EVIDENCE
+        ================================================= */
+
+        function renderEvidence(
+            result
+        ) {
+
+            const container =
+                document.getElementById(
+                    "evidenceContainer"
+                );
+
+
+            const winner =
+                result.ranking[0];
+
+
+            container.innerHTML = "";
+
+
+            if (
+                !winner.evidence ||
+                !winner.evidence.length
+            ) {
+
+                container.innerHTML = `
+                    <p>
+                        Referensi belum tersedia.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+            winner.evidence.forEach(
+                (reference, index) => {
+
+                    container.innerHTML += `
+
+                        <article class="evidence-card">
+
+                            <div class="evidence-number">
+                                ${index + 1}
+                            </div>
+
+                            <div class="evidence-content">
+
+                                <h3>
+                                    ${reference.title}
+                                </h3>
+
+                                <div class="evidence-meta">
+
+                                    ${reference.journal}
+                                    •
+                                    ${reference.year}
+
+                                </div>
+
+                                <p>
+                                    ${reference.relevance}
+                                </p>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           RENDER INPUT SUMMARY
+        ================================================= */
+
+        function renderInputSummary(
+            result
+        ) {
+
+            const container =
+                document.getElementById(
+                    "inputSummary"
+                );
+
+
+            const data =
+                result.input;
+
+
+            const items = [
+
+                [
+                    "Nama Usaha",
+                    data.businessName
+                ],
+
+                [
+                    "Jenis Usaha",
+                    formatLabel(
+                        data.businessType
+                    )
+                ],
+
+                [
+                    "Skala Usaha",
+                    formatLabel(
+                        data.businessScale
+                    )
+                ],
+
+                [
+                    "Volume Limbah",
+                    `${data.wasteVolume || 0} kg/hari`
+                ],
+
+                [
+                    "Jenis Limbah",
+                    formatLabel(
+                        data.wasteType
+                    )
+                ],
+
+                [
+                    "Kadar Air",
+                    formatLabel(
+                        data.moisture
+                    )
+                ],
+
+                [
+                    "Kandungan Organik",
+                    formatLabel(
+                        data.organicContent
+                    )
+                ],
+
+                [
+                    "Ketersediaan Lahan",
+                    formatLabel(
+                        data.landAvailability
+                    )
+                ],
+
+                [
+                    "Investasi",
+                    formatLabel(
+                        data.budget
+                    )
+                ],
+
+                [
+                    "Teknologi",
+                    formatLabel(
+                        data.technology
+                    )
+                ]
+
+            ];
+
+
+            container.innerHTML = "";
+
+
+            items.forEach(
+                item => {
+
+                    container.innerHTML += `
+
+                        <div class="summary-item">
+
+                            <span>
+                                ${item[0]}
+                            </span>
+
+                            <strong>
+                                ${item[1] || "-"}
+                            </strong>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           MAIN
+        ================================================= */
+
+        function initializeResult() {
+
+            const result =
+                getLatestResult();
+
+
+            if (
+                !result ||
+                !result.ranking ||
+                !result.ranking.length
+            ) {
+
+                loadingState.innerHTML = `
+
+                    <div>
+
+                        <h2>
+                            Hasil analisis belum tersedia
+                        </h2>
+
+                        <p>
+                            Silakan lakukan analisis
+                            terlebih dahulu.
+                        </p>
+
+                        <br>
+
+                        <a
+                            href="analysis.html"
+                            class="btn-primary"
+                        >
+                            Mulai Analisis
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            renderRecommendation(
+                result
+            );
+
+
+            renderReasons(
+                result
+            );
+
+
+            renderRanking(
+                result
+            );
+
+
+            renderCriteriaTable(
+                result
+            );
+
+
+            renderImplementation(
+                result
+            );
+
+
+            renderRisks(
+                result
+            );
+
+
+            renderEvidence(
+                result
+            );
+
+
+            renderInputSummary(
+                result
+            );
+
+
+            setTimeout(
+                () => {
+
+                    loadingState.style.display =
+                        "none";
+
+                    resultContent.style.display =
+                        "block";
+
+                },
+                300
+            );
+
+        }
+
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeResult
+        );
+
+    </script>
+
+</body>
+
+</html>
