@@ -1,1038 +1,908 @@
-/*
-=========================================================
-SIRASENTA ENGINE
-MCDA + LocalStorage
-=========================================================
-*/
+document.addEventListener("DOMContentLoaded", function () {
 
+    const form = document.getElementById("analysisForm");
 
-/* ======================================================
-   KONFIGURASI
-====================================================== */
+    if (!form) return;
 
-const STORAGE_INPUT =
-    "sirasenta_input";
 
-const STORAGE_RESULT =
-    "sirasenta_result";
+    form.addEventListener("submit", function (event) {
 
-const STORAGE_EVALUATION =
-    "sirasenta_evaluation";
+        event.preventDefault();
 
 
+        /* =========================================
+           1. AMBIL DATA FORM
+        ========================================= */
 
-/* ======================================================
-   LEVEL → SCORE
-====================================================== */
+        const formData = new FormData(form);
 
-function levelToScore(value) {
+        const input = Object.fromEntries(
+            formData.entries()
+        );
 
-    const scores = {
 
-        rendah: 40,
+        /* =========================================
+           2. CEK BOBOT
+        ========================================= */
 
-        sedang: 70,
+        const totalWeight =
+            Number(input.weightEconomic || 0) +
+            Number(input.weightEnvironment || 0) +
+            Number(input.weightTechnical || 0) +
+            Number(input.weightCircularity || 0) +
+            Number(input.weightSocial || 0);
 
-        tinggi: 100
 
-    };
+        if (totalWeight !== 100) {
 
-    return scores[value] || 70;
-
-}
-
-
-
-/* ======================================================
-   WASTE FACTOR
-====================================================== */
-
-function getWasteFactor(
-    wasteType
-) {
-
-    const factors = {
-
-        "ampas-tahu": 1.00,
-
-        "kulit-kedelai": 0.95,
-
-        "air-limbah-tahu": 0.80,
-
-        "campuran": 0.90
-
-    };
-
-    return factors[wasteType] || 0.90;
-
-}
-
-
-
-/* ======================================================
-   SCALE FACTOR
-====================================================== */
-
-function getScaleFactor(
-    scale
-) {
-
-    const factors = {
-
-        kecil: 0.95,
-
-        menengah: 1.00,
-
-        besar: 1.05
-
-    };
-
-    return factors[scale] || 1;
-
-}
-
-
-
-/* ======================================================
-   TECHNOLOGY FACTOR
-====================================================== */
-
-function getTechnologyFactor(
-    technology
-) {
-
-    const factors = {
-
-        rendah: 0.90,
-
-        sedang: 1.00,
-
-        tinggi: 1.05
-
-    };
-
-    return factors[technology] || 1;
-
-}
-
-
-
-/* ======================================================
-   BUDGET FACTOR
-====================================================== */
-
-function getBudgetFactor(
-    budget
-) {
-
-    const factors = {
-
-        rendah: 0.90,
-
-        sedang: 1.00,
-
-        tinggi: 1.05
-
-    };
-
-    return factors[budget] || 1;
-
-}
-
-
-
-/* ======================================================
-   NORMALIZE WEIGHT
-====================================================== */
-
-function normalizeWeights(
-    data
-) {
-
-    let weights = {
-
-        economic:
-            Number(
-                data.weightEconomic
-            ) || 25,
-
-        environment:
-            Number(
-                data.weightEnvironment
-            ) || 25,
-
-        technical:
-            Number(
-                data.weightTechnical
-            ) || 20,
-
-        circularity:
-            Number(
-                data.weightCircularity
-            ) || 20,
-
-        social:
-            Number(
-                data.weightSocial
-            ) || 10
-
-    };
-
-
-    const total =
-        Object.values(weights)
-            .reduce(
-                (sum, value) =>
-                    sum + value,
-                0
+            alert(
+                `Total bobot harus 100%. Saat ini ${totalWeight}%.`
             );
 
+            return;
+        }
 
-    if (total <= 0) {
 
-        return {
+        /* =========================================
+           3. DATABASE ALTERNATIF
+        ========================================= */
 
-            economic: 0.25,
+        const alternatives = [
 
-            environment: 0.25,
+            {
+                id: "pakan-fermentasi",
 
-            technical: 0.20,
+                name:
+                    "Pakan Ternak Fermentasi",
 
-            circularity: 0.20,
+                category:
+                    "Biokonversi",
 
-            social: 0.10
+                icon:
+                    "🐄",
+
+                scores: {
+                    economic: 88,
+                    environment: 94,
+                    technical: 78,
+                    circularity: 97,
+                    social: 89
+                },
+
+                requirements: {
+                    budget: "sedang",
+                    technology: "sedang",
+                    land: "rendah"
+                },
+
+                description:
+                    "Pemanfaatan residu organik sebagai bahan pakan melalui proses pengolahan dan fermentasi.",
+
+                process: [
+
+                    "Pemilahan residu",
+
+                    "Pengurangan kadar air",
+
+                    "Pencacahan",
+
+                    "Fermentasi",
+
+                    "Pengeringan",
+
+                    "Validasi keamanan",
+
+                    "Pemanfaatan sebagai pakan"
+
+                ],
+
+                risks: [
+
+                    "Kualitas nutrisi harus divalidasi.",
+
+                    "Penyimpanan harus dikontrol.",
+
+                    "Pengujian keamanan diperlukan."
+
+                ],
+
+                references: [
+
+                    {
+                        title:
+                            "Soybean curd residue as a potential feed resource",
+
+                        journal:
+                            "Waste Management & Research",
+
+                        year:
+                            2020
+                    }
+
+                ]
+
+            },
+
+
+            {
+                id: "kompos",
+
+                name:
+                    "Kompos Organik",
+
+                category:
+                    "Daur Ulang Organik",
+
+                icon:
+                    "🌱",
+
+                scores: {
+                    economic: 75,
+                    environment: 96,
+                    technical: 90,
+                    circularity: 92,
+                    social: 85
+                },
+
+                requirements: {
+                    budget: "rendah",
+                    technology: "rendah",
+                    land: "sedang"
+                },
+
+                description:
+                    "Pengolahan limbah organik menjadi kompos.",
+
+                process: [
+
+                    "Pemilahan",
+
+                    "Pencacahan",
+
+                    "Pencampuran",
+
+                    "Dekomposisi",
+
+                    "Pematangan"
+
+                ],
+
+                risks: [
+
+                    "Membutuhkan ruang.",
+
+                    "Kadar air perlu dikontrol."
+
+                ],
+
+                references: [
+
+                    {
+                        title:
+                            "Composting of organic waste and resource recovery",
+
+                        journal:
+                            "Bioresource Technology",
+
+                        year:
+                            2020
+                    }
+
+                ]
+
+            },
+
+
+            {
+                id: "biogas",
+
+                name:
+                    "Produksi Biogas",
+
+                category:
+                    "Energi Terbarukan",
+
+                icon:
+                    "⚡",
+
+                scores: {
+                    economic: 82,
+                    environment: 95,
+                    technical: 70,
+                    circularity: 94,
+                    social: 80
+                },
+
+                requirements: {
+                    budget: "tinggi",
+                    technology: "tinggi",
+                    land: "sedang"
+                },
+
+                description:
+                    "Konversi limbah organik melalui anaerobic digestion untuk menghasilkan biogas.",
+
+                process: [
+
+                    "Pengumpulan",
+
+                    "Pra-pengolahan",
+
+                    "Pengisian digester",
+
+                    "Anaerobic digestion",
+
+                    "Pengumpulan biogas",
+
+                    "Pemanfaatan energi"
+
+                ],
+
+                risks: [
+
+                    "Investasi awal tinggi.",
+
+                    "Membutuhkan instalasi digester."
+
+                ],
+
+                references: [
+
+                    {
+                        title:
+                            "Anaerobic digestion of agro-industrial waste",
+
+                        journal:
+                            "Renewable Energy",
+
+                        year:
+                            2021
+                    }
+
+                ]
+
+            },
+
+
+            {
+                id: "briket",
+
+                name:
+                    "Briket Biomassa",
+
+                category:
+                    "Energi Biomassa",
+
+                icon:
+                    "🔥",
+
+                scores: {
+                    economic: 80,
+                    environment: 84,
+                    technical: 78,
+                    circularity: 87,
+                    social: 81
+                },
+
+                requirements: {
+                    budget: "sedang",
+                    technology: "sedang",
+                    land: "rendah"
+                },
+
+                description:
+                    "Konversi biomassa kering menjadi bahan bakar padat alternatif.",
+
+                process: [
+
+                    "Pemilahan biomassa",
+
+                    "Pengeringan",
+
+                    "Penghalusan",
+
+                    "Pencampuran",
+
+                    "Pencetakan",
+
+                    "Pengeringan akhir"
+
+                ],
+
+                risks: [
+
+                    "Kadar air harus dikontrol.",
+
+                    "Membutuhkan mesin pencetak."
+
+                ],
+
+                references: [
+
+                    {
+                        title:
+                            "Biomass waste conversion into solid fuel",
+
+                        journal:
+                            "Renewable and Sustainable Energy Reviews",
+
+                        year:
+                            2020
+                    }
+
+                ]
+
+            },
+
+
+            {
+                id: "pupuk-cair",
+
+                name:
+                    "Pupuk Organik Cair",
+
+                category:
+                    "Bioproses",
+
+                icon:
+                    "💧",
+
+                scores: {
+                    economic: 83,
+                    environment: 90,
+                    technical: 84,
+                    circularity: 91,
+                    social: 87
+                },
+
+                requirements: {
+                    budget: "rendah",
+                    technology: "sedang",
+                    land: "rendah"
+                },
+
+                description:
+                    "Pengolahan bahan organik menjadi pupuk organik cair melalui fermentasi.",
+
+                process: [
+
+                    "Pemisahan",
+
+                    "Pencacahan",
+
+                    "Pencampuran",
+
+                    "Fermentasi",
+
+                    "Penyaringan",
+
+                    "Pengujian kualitas"
+
+                ],
+
+                risks: [
+
+                    "Kualitas dipengaruhi proses fermentasi.",
+
+                    "Pengendalian bau diperlukan."
+
+                ],
+
+                references: [
+
+                    {
+                        title:
+                            "Organic waste valorization through liquid fertilizer production",
+
+                        journal:
+                            "Journal of Environmental Management",
+
+                        year:
+                            2021
+                    }
+
+                ]
+
+            }
+
+        ];
+
+
+
+        /* =========================================
+           4. BOBOT MCDA
+        ========================================= */
+
+        const weights = {
+
+            economic:
+                Number(input.weightEconomic) / 100,
+
+            environment:
+                Number(input.weightEnvironment) / 100,
+
+            technical:
+                Number(input.weightTechnical) / 100,
+
+            circularity:
+                Number(input.weightCircularity) / 100,
+
+            social:
+                Number(input.weightSocial) / 100
 
         };
 
-    }
 
 
-    return {
+        /* =========================================
+           5. PENYESUAIAN KONDISI USAHA
+        ========================================= */
 
-        economic:
-            weights.economic / total,
-
-        environment:
-            weights.environment / total,
-
-        technical:
-            weights.technical / total,
-
-        circularity:
-            weights.circularity / total,
-
-        social:
-            weights.social / total
-
-    };
-
-}
-
-
-
-/* ======================================================
-   CALCULATE ALTERNATIVE
-====================================================== */
-
-function calculateAlternative(
-    alternative,
-    input,
-    weights
-) {
-
-    const base =
-        alternative.scores;
-
-
-    /*
-    Penyesuaian berdasarkan
-    karakteristik UMKM.
-    */
-
-    let technicalAdjustment = 1;
-
-    let economicAdjustment = 1;
-
-
-    /*
-    Teknologi rendah
-    kurang cocok untuk
-    solusi kompleks.
-    */
-
-    if (
-        input.technology === "rendah"
-    ) {
-
-        if (
-            alternative.requirements
-                .technology === "tinggi"
+        function calculateScore(
+            alternative
         ) {
 
-            technicalAdjustment =
-                0.82;
+            let scores = {
+                ...alternative.scores
+            };
 
-        }
 
-        else if (
-            alternative.requirements
-                .technology === "sedang"
-        ) {
+            /*
+            Budget
+            */
 
-            technicalAdjustment =
-                0.93;
+            if (
+                input.budget === "rendah" &&
+                alternative.requirements.budget === "tinggi"
+            ) {
 
-        }
+                scores.economic -= 15;
 
-    }
+                scores.technical -= 5;
 
+            }
 
-    /*
-    Budget rendah.
-    */
 
-    if (
-        input.budget === "rendah"
-    ) {
+            if (
+                input.budget === "rendah" &&
+                alternative.requirements.budget === "sedang"
+            ) {
 
-        if (
-            alternative.requirements
-                .budget === "tinggi"
-        ) {
+                scores.economic -= 5;
 
-            economicAdjustment =
-                0.80;
+            }
 
-        }
 
-        else if (
-            alternative.requirements
-                .budget === "sedang"
-        ) {
+            /*
+            Teknologi
+            */
 
-            economicAdjustment =
-                0.93;
+            if (
+                input.technology === "rendah" &&
+                alternative.requirements.technology === "tinggi"
+            ) {
 
-        }
+                scores.technical -= 15;
 
-    }
+            }
 
 
-    /*
-    Lahan terbatas.
-    */
+            if (
+                input.technology === "rendah" &&
+                alternative.requirements.technology === "sedang"
+            ) {
 
-    let landAdjustment = 1;
+                scores.technical -= 5;
 
+            }
 
-    if (
-        input.landAvailability === "rendah" &&
-        alternative.requirements.land === "sedang"
-    ) {
 
-        landAdjustment = 0.92;
+            /*
+            Lahan
+            */
 
-    }
+            if (
+                input.landAvailability === "rendah" &&
+                alternative.requirements.land === "sedang"
+            ) {
 
+                scores.technical -= 8;
 
-    /*
-    Waste factor.
-    */
+            }
 
-    const wasteFactor =
-        getWasteFactor(
-            input.wasteType
-        );
 
+            /*
+            Kandungan organik
+            */
 
-    /*
-    Volume.
-    */
-
-    const volume =
-        Number(
-            input.wasteVolume
-        ) || 0;
-
-
-    let volumeFactor = 1;
-
-
-    if (volume < 25) {
-
-        volumeFactor = 0.94;
-
-    }
-
-    else if (volume >= 100) {
-
-        volumeFactor = 1.03;
-
-    }
-
-
-    /*
-    Final score setiap kriteria.
-    */
-
-    const adjustedScores = {
-
-        economic:
-            Math.min(
-                100,
-                Math.round(
-                    base.economic *
-                    economicAdjustment *
-                    volumeFactor
-                )
-            ),
-
-        environment:
-            Math.min(
-                100,
-                Math.round(
-                    base.environment *
-                    wasteFactor
-                )
-            ),
-
-        technical:
-            Math.min(
-                100,
-                Math.round(
-                    base.technical *
-                    technicalAdjustment *
-                    landAdjustment
-                )
-            ),
-
-        circularity:
-            Math.min(
-                100,
-                Math.round(
-                    base.circularity *
-                    wasteFactor
-                )
-            ),
-
-        social:
-            Math.min(
-                100,
-                Math.round(
-                    base.social *
-                    getScaleFactor(
-                        input.businessScale
-                    )
-                )
-            )
-
-    };
-
-
-    /*
-    Weighted Sum Model.
-    */
-
-    const finalScore = Math.round(
-
-        (
-            adjustedScores.economic *
-            weights.economic
-
-        ) +
-
-        (
-            adjustedScores.environment *
-            weights.environment
-
-        ) +
-
-        (
-            adjustedScores.technical *
-            weights.technical
-
-        ) +
-
-        (
-            adjustedScores.circularity *
-            weights.circularity
-
-        ) +
-
-        (
-            adjustedScores.social *
-            weights.social
-
-        )
-
-    );
-
-
-    return {
-
-        ...alternative,
-
-        adjustedScores,
-
-        finalScore
-
-    };
-
-}
-
-
-
-/* ======================================================
-   RUN MCDA
-====================================================== */
-
-function runMCDA(
-    input
-) {
-
-    const alternatives =
-        getAlternatives();
-
-
-    const weights =
-        normalizeWeights(
-            input
-        );
-
-
-    let ranking =
-        alternatives.map(
-            alternative =>
-
-                calculateAlternative(
-                    alternative,
-                    input,
-                    weights
-                )
-
-        );
-
-
-    /*
-    Sort highest score.
-    */
-
-    ranking.sort(
-        (a, b) =>
-            b.finalScore -
-            a.finalScore
-    );
-
-
-    /*
-    Tambahkan ranking.
-    */
-
-    ranking =
-        ranking.map(
-            (item, index) => ({
-
-                ...item,
-
-                rank:
-                    index + 1
-
-            })
-        );
-
-
-    const winner =
-        ranking[0];
-
-
-    /*
-    Confidence sederhana berdasarkan
-    selisih winner dengan runner-up.
-    */
-
-    const difference =
-        winner.finalScore -
-        (
-            ranking[1]
-                ?.finalScore || 0
-        );
-
-
-    const confidence =
-        Math.min(
-            98,
-            Math.max(
-                60,
-                Math.round(
-                    75 + difference * 1.5
-                )
-            )
-        );
-
-
-    const result = {
-
-        timestamp:
-            new Date().toISOString(),
-
-        input,
-
-        weights,
-
-        ranking,
-
-        confidence,
-
-        recommendation: {
-
-            alternativeId:
-                winner.id,
-
-            alternativeName:
-                winner.name,
-
-            score:
-                winner.finalScore,
-
-            rank:
-                winner.rank,
-
-            level:
-                getRecommendationLevel(
-                    winner.finalScore
-                ),
-
-            explanation:
-                generateExplanation(
-                    winner,
-                    input
-                )
-
-        }
-
-    };
-
-
-    return result;
-
-}
-
-
-
-/* ======================================================
-   RECOMMENDATION LEVEL
-====================================================== */
-
-function getRecommendationLevel(
-    score
-) {
-
-    if (score >= 85) {
-
-        return "Sangat Direkomendasikan";
-
-    }
-
-    if (score >= 75) {
-
-        return "Direkomendasikan";
-
-    }
-
-    if (score >= 65) {
-
-        return "Cukup Direkomendasikan";
-
-    }
-
-    return "Perlu Kajian Lebih Lanjut";
-
-}
-
-
-
-/* ======================================================
-   EXPLANATION
-====================================================== */
-
-function generateExplanation(
-    winner,
-    input
-) {
-
-    const scores =
-        winner.adjustedScores;
-
-
-    const highest =
-        Object.entries(scores)
-            .sort(
-                (a, b) =>
-                    b[1] - a[1]
-            )[0];
-
-
-    const criteriaName = {
-
-        economic:
-            "ekonomi",
-
-        environment:
-            "lingkungan",
-
-        technical:
-            "teknis",
-
-        circularity:
-            "sirkularitas",
-
-        social:
-            "sosial"
-
-    };
-
-
-    return `${winner.name} memperoleh skor tertinggi sebesar ${winner.finalScore}/100. Kinerja terbaik terutama didukung oleh aspek ${criteriaName[highest[0]]} dengan skor ${highest[1]}/100, sehingga alternatif ini menjadi pilihan paling sesuai berdasarkan bobot dan karakteristik data yang dimasukkan.`;
-
-}
-
-
-
-/* ======================================================
-   SAVE RESULT
-====================================================== */
-
-function saveResult(
-    result
-) {
-
-    localStorage.setItem(
-
-        STORAGE_RESULT,
-
-        JSON.stringify(
-            result
-        )
-
-    );
-
-}
-
-
-
-/* ======================================================
-   GET RESULT
-====================================================== */
-
-function getLatestResult() {
-
-    const raw =
-        localStorage.getItem(
-            STORAGE_RESULT
-        );
-
-
-    if (!raw) {
-
-        return null;
-
-    }
-
-
-    try {
-
-        return JSON.parse(
-            raw
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Result tidak valid:",
-            error
-        );
-
-        return null;
-
-    }
-
-}
-
-
-
-/* ======================================================
-   SAVE INPUT
-====================================================== */
-
-function saveInput(
-    input
-) {
-
-    localStorage.setItem(
-
-        STORAGE_INPUT,
-
-        JSON.stringify(
-            input
-        )
-
-    );
-
-}
-
-
-
-/* ======================================================
-   GET INPUT
-====================================================== */
-
-function getLatestInput() {
-
-    const raw =
-        localStorage.getItem(
-            STORAGE_INPUT
-        );
-
-
-    if (!raw) {
-
-        return null;
-
-    }
-
-
-    try {
-
-        return JSON.parse(
-            raw
-        );
-
-    }
-
-    catch {
-
-        return null;
-
-    }
-
-}
-
-
-
-/* ======================================================
-   SAVE EVALUATION
-====================================================== */
-
-function saveEvaluation(
-    evaluation
-) {
-
-    const result =
-        getLatestResult();
-
-
-    const finalData = {
-
-        ...evaluation,
-
-        recommendation:
-            result
-                ?.recommendation
-                ?.alternativeName
-                || "-",
-
-        recommendationScore:
-            result
-                ?.recommendation
-                ?.score
-                || 0,
-
-        timestamp:
-            new Date().toISOString()
-
-    };
-
-
-    localStorage.setItem(
-
-        STORAGE_EVALUATION,
-
-        JSON.stringify(
-            finalData
-        )
-
-    );
-
-}
-
-
-
-/* ======================================================
-   GET EVALUATION
-====================================================== */
-
-function getLatestEvaluation() {
-
-    const raw =
-        localStorage.getItem(
-            STORAGE_EVALUATION
-        );
-
-
-    if (!raw) {
-
-        return null;
-
-    }
-
-
-    try {
-
-        return JSON.parse(
-            raw
-        );
-
-    }
-
-    catch {
-
-        return null;
-
-    }
-
-}
-
-
-
-/* ======================================================
-   ANALYSIS FORM
-====================================================== */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        const form =
-            document.getElementById(
-                "analysisForm"
-            );
-
-
-        if (!form) {
-
-            return;
-
-        }
-
-
-        form.addEventListener(
-            "submit",
-            function(event) {
-
-                event.preventDefault();
-
-
-                const formData =
-                    new FormData(
-                        form
-                    );
-
-
-                const input =
-                    Object.fromEntries(
-                        formData.entries()
-                    );
-
-
-                /*
-                Validasi bobot.
-                */
-
-                const weightTotal =
-
-                    (
-                        Number(
-                            input.weightEconomic
-                        ) || 0
-                    ) +
-
-                    (
-                        Number(
-                            input.weightEnvironment
-                        ) || 0
-                    ) +
-
-                    (
-                        Number(
-                            input.weightTechnical
-                        ) || 0
-                    ) +
-
-                    (
-                        Number(
-                            input.weightCircularity
-                        ) || 0
-                    ) +
-
-                    (
-                        Number(
-                            input.weightSocial
-                        ) || 0
-                    );
-
+            if (
+                input.organicContent === "tinggi"
+            ) {
 
                 if (
-                    weightTotal !== 100
+                    alternative.id ===
+                    "pakan-fermentasi"
                 ) {
 
-                    alert(
-                        `Total bobot harus 100%. Saat ini ${weightTotal}%.`
-                    );
-
-                    return;
+                    scores.circularity += 3;
 
                 }
 
+                if (
+                    alternative.id ===
+                    "biogas"
+                ) {
 
-                /*
-                Simpan input.
-                */
+                    scores.environment += 3;
 
-                saveInput(
-                    input
-                );
-
-
-                /*
-                Jalankan MCDA.
-                */
-
-                const result =
-                    runMCDA(
-                        input
-                    );
-
-
-                /*
-                Simpan hasil.
-                */
-
-                saveResult(
-                    result
-                );
-
-
-                /*
-                Pindah ke result.
-                */
-
-                window.location.href =
-                    "result.html";
+                }
 
             }
+
+
+            /*
+            Kadar air tinggi
+            */
+
+            if (
+                input.moisture === "tinggi"
+            ) {
+
+                if (
+                    alternative.id ===
+                    "briket"
+                ) {
+
+                    scores.technical -= 10;
+
+                }
+
+                if (
+                    alternative.id ===
+                    "biogas"
+                ) {
+
+                    scores.technical += 4;
+
+                }
+
+            }
+
+
+            /*
+            Air limbah
+            */
+
+            if (
+                input.wasteType ===
+                "air-limbah-tahu"
+            ) {
+
+                if (
+                    alternative.id ===
+                    "biogas"
+                ) {
+
+                    scores.environment += 5;
+
+                }
+
+                if (
+                    alternative.id ===
+                    "briket"
+                ) {
+
+                    scores.technical -= 15;
+
+                }
+
+            }
+
+
+            /*
+            Ampas tahu
+            */
+
+            if (
+                input.wasteType ===
+                "ampas-tahu"
+            ) {
+
+                if (
+                    alternative.id ===
+                    "pakan-fermentasi"
+                ) {
+
+                    scores.circularity += 5;
+
+                    scores.economic += 3;
+
+                }
+
+            }
+
+
+            /*
+            Kondisi terkontaminasi
+            */
+
+            if (
+                input.wasteCondition ===
+                "terkontaminasi"
+            ) {
+
+                if (
+                    alternative.id ===
+                    "pakan-fermentasi"
+                ) {
+
+                    scores.technical -= 20;
+
+                    scores.social -= 10;
+
+                }
+
+            }
+
+
+            /*
+            Batasi 0–100
+            */
+
+            Object.keys(scores).forEach(
+                key => {
+
+                    scores[key] =
+                        Math.max(
+                            0,
+                            Math.min(
+                                100,
+                                scores[key]
+                            )
+                        );
+
+                }
+            );
+
+
+            /*
+            Weighted Sum Model
+            */
+
+            const finalScore = Math.round(
+
+                scores.economic *
+                weights.economic
+
+                +
+
+                scores.environment *
+                weights.environment
+
+                +
+
+                scores.technical *
+                weights.technical
+
+                +
+
+                scores.circularity *
+                weights.circularity
+
+                +
+
+                scores.social *
+                weights.social
+
+            );
+
+
+            return {
+
+                ...alternative,
+
+                adjustedScores:
+                    scores,
+
+                finalScore:
+                    finalScore
+
+            };
+
+        }
+
+
+
+        /* =========================================
+           6. HITUNG SEMUA ALTERNATIF
+        ========================================= */
+
+        let ranking =
+            alternatives.map(
+                calculateScore
+            );
+
+
+        ranking.sort(
+            (a, b) =>
+                b.finalScore -
+                a.finalScore
         );
 
-    }
-);
+
+        ranking =
+            ranking.map(
+                (item, index) => ({
+
+                    ...item,
+
+                    rank:
+                        index + 1
+
+                })
+            );
+
+
+
+        /* =========================================
+           7. REKOMENDASI
+        ========================================= */
+
+        const winner =
+            ranking[0];
+
+
+        const runnerUp =
+            ranking[1];
+
+
+        const difference =
+            winner.finalScore -
+            runnerUp.finalScore;
+
+
+        let confidence =
+            75 + difference;
+
+
+        confidence =
+            Math.max(
+                70,
+                Math.min(
+                    98,
+                    confidence
+                )
+            );
+
+
+
+        let recommendationLevel;
+
+
+        if (
+            winner.finalScore >= 85
+        ) {
+
+            recommendationLevel =
+                "Sangat Direkomendasikan";
+
+        }
+
+        else if (
+            winner.finalScore >= 75
+        ) {
+
+            recommendationLevel =
+                "Direkomendasikan";
+
+        }
+
+        else if (
+            winner.finalScore >= 65
+        ) {
+
+            recommendationLevel =
+                "Cukup Direkomendasikan";
+
+        }
+
+        else {
+
+            recommendationLevel =
+                "Perlu Kajian Lebih Lanjut";
+
+        }
+
+
+
+        /* =========================================
+           8. HASIL FINAL
+        ========================================= */
+
+        const result = {
+
+            timestamp:
+                new Date().toISOString(),
+
+            input:
+                input,
+
+            weights:
+                weights,
+
+            confidence:
+                confidence,
+
+            recommendation: {
+
+                alternativeId:
+                    winner.id,
+
+                alternativeName:
+                    winner.name,
+
+                score:
+                    winner.finalScore,
+
+                rank:
+                    winner.rank,
+
+                level:
+                    recommendationLevel,
+
+                explanation:
+
+                    `${winner.name} memperoleh skor tertinggi sebesar ${winner.finalScore}/100 berdasarkan pembobotan MCDA terhadap aspek ekonomi, lingkungan, teknis, sirkularitas, dan sosial.`
+
+            },
+
+            ranking:
+                ranking
+
+        };
+
+
+
+        /* =========================================
+           9. SIMPAN
+        ========================================= */
+
+        localStorage.setItem(
+
+            "sirasenta_result",
+
+            JSON.stringify(
+                result
+            )
+
+        );
+
+
+        /*
+        Simpan juga dengan key lama
+        supaya kompatibel dengan
+        halaman lama.
+        */
+
+        localStorage.setItem(
+
+            "sirasentaAnalysis",
+
+            JSON.stringify(
+                input
+            )
+
+        );
+
+
+
+        /* =========================================
+           10. PINDAH KE RESULT
+        ========================================= */
+
+        window.location.href =
+            "result.html";
+
+    });
+
+});
