@@ -2,998 +2,1140 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="SIRASENTA - Evaluasi rekomendasi pengolahan limbah berbasis Multi-Criteria Decision Analysis."
+    >
 
     <title>Evaluasi | SIRASENTA</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
 
-    <header class="navbar">
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
 
-        <div class="logo">
-            <span>SIRA</span>SENTA
-        </div>
+<header class="navbar">
 
-        <div class="nav-actions">
+    <div class="logo">
 
-            <a href="index.html" class="nav-back">
-                Beranda
-            </a>
+        <span>SIRA</span>SENTA
 
-            <a href="result.html" class="nav-back">
-                Hasil Analisis
-            </a>
+    </div>
 
-        </div>
 
-    </header>
+    <div class="nav-actions">
 
-
-
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
-    <main class="evaluation-container">
-
-
-        <!-- =================================================
-             HEADER
-        ================================================== -->
-
-        <section class="evaluation-header">
-
-            <span class="section-label">
-                SIRASENTA • FINAL EVALUATION
-            </span>
-
-            <h1>
-                Evaluasi Rekomendasi
-            </h1>
-
-            <p>
-                Tahap akhir untuk menilai kelayakan,
-                kesiapan implementasi, serta potensi
-                pengembangan alternatif pengolahan limbah.
-            </p>
-
-        </section>
-
-
-
-        <!-- =================================================
-             RECOMMENDATION SUMMARY
-        ================================================== -->
-
-        <section class="evaluation-summary">
-
-            <div class="summary-icon">
-                ♻️
-            </div>
-
-            <div>
-
-                <span>
-                    REKOMENDASI SIRASENTA
-                </span>
-
-                <h2 id="evaluationWinner">
-                    Memuat rekomendasi...
-                </h2>
-
-                <p>
-                    Skor:
-                    <strong id="evaluationScore">
-                        -
-                    </strong>
-                    /100
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             EVALUATION FORM
-        ================================================== -->
-
-        <form id="evaluationForm">
-
-
-            <!-- =================================================
-                 01 — KELAYAKAN
-            ================================================== -->
-
-            <section class="evaluation-card">
-
-                <div class="evaluation-title">
-
-                    <div class="step-number">
-                        01
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            FEASIBILITY
-                        </span>
-
-                        <h2>
-                            Kelayakan Implementasi
-                        </h2>
-
-                        <p>
-                            Seberapa realistis alternatif
-                            tersebut diterapkan pada usaha?
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="evaluation-question">
-
-                    <label>
-                        Seberapa layak alternatif
-                        tersebut diterapkan?
-                    </label>
-
-                    <div class="rating-grid">
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="feasibility"
-                                value="1"
-                                required
-                            >
-
-                            <span>
-                                1
-                            </span>
-
-                            <small>
-                                Sangat Tidak Layak
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="feasibility"
-                                value="2"
-                            >
-
-                            <span>
-                                2
-                            </span>
-
-                            <small>
-                                Tidak Layak
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="feasibility"
-                                value="3"
-                            >
-
-                            <span>
-                                3
-                            </span>
-
-                            <small>
-                                Cukup Layak
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="feasibility"
-                                value="4"
-                            >
-
-                            <span>
-                                4
-                            </span>
-
-                            <small>
-                                Layak
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="feasibility"
-                                value="5"
-                            >
-
-                            <span>
-                                5
-                            </span>
-
-                            <small>
-                                Sangat Layak
-                            </small>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 02 — KESIAPAN TEKNOLOGI
-            ================================================== -->
-
-            <section class="evaluation-card">
-
-                <div class="evaluation-title">
-
-                    <div class="step-number">
-                        02
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            TECHNOLOGY
-                        </span>
-
-                        <h2>
-                            Kesiapan Teknologi
-                        </h2>
-
-                        <p>
-                            Nilai kesiapan teknologi yang
-                            diperlukan untuk implementasi.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="evaluation-question">
-
-                    <label>
-                        Seberapa siap teknologi
-                        untuk diterapkan?
-                    </label>
-
-                    <div class="rating-grid">
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="technologyReadiness"
-                                value="1"
-                                required
-                            >
-
-                            <span>1</span>
-
-                            <small>
-                                Sangat Tidak Siap
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="technologyReadiness"
-                                value="2"
-                            >
-
-                            <span>2</span>
-
-                            <small>
-                                Tidak Siap
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="technologyReadiness"
-                                value="3"
-                            >
-
-                            <span>3</span>
-
-                            <small>
-                                Cukup
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="technologyReadiness"
-                                value="4"
-                            >
-
-                            <span>4</span>
-
-                            <small>
-                                Siap
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="technologyReadiness"
-                                value="5"
-                            >
-
-                            <span>5</span>
-
-                            <small>
-                                Sangat Siap
-                            </small>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 03 — EKONOMI
-            ================================================== -->
-
-            <section class="evaluation-card">
-
-                <div class="evaluation-title">
-
-                    <div class="step-number">
-                        03
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            ECONOMIC
-                        </span>
-
-                        <h2>
-                            Potensi Ekonomi
-                        </h2>
-
-                        <p>
-                            Evaluasi biaya dan potensi
-                            nilai ekonomi yang dihasilkan.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="evaluation-question">
-
-                    <label>
-                        Seberapa besar potensi ekonomi
-                        dari penerapan alternatif?
-                    </label>
-
-                    <div class="rating-grid">
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="economicPotential"
-                                value="1"
-                                required
-                            >
-
-                            <span>1</span>
-
-                            <small>
-                                Sangat Rendah
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="economicPotential"
-                                value="2"
-                            >
-
-                            <span>2</span>
-
-                            <small>
-                                Rendah
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="economicPotential"
-                                value="3"
-                            >
-
-                            <span>3</span>
-
-                            <small>
-                                Sedang
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="economicPotential"
-                                value="4"
-                            >
-
-                            <span>4</span>
-
-                            <small>
-                                Tinggi
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="economicPotential"
-                                value="5"
-                            >
-
-                            <span>5</span>
-
-                            <small>
-                                Sangat Tinggi
-                            </small>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 04 — LINGKUNGAN
-            ================================================== -->
-
-            <section class="evaluation-card">
-
-                <div class="evaluation-title">
-
-                    <div class="step-number">
-                        04
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            ENVIRONMENT
-                        </span>
-
-                        <h2>
-                            Dampak Lingkungan
-                        </h2>
-
-                        <p>
-                            Evaluasi kontribusi alternatif
-                            terhadap pengurangan limbah.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="evaluation-question">
-
-                    <label>
-                        Seberapa besar dampak positif
-                        terhadap lingkungan?
-                    </label>
-
-                    <div class="rating-grid">
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="environmentalImpact"
-                                value="1"
-                                required
-                            >
-
-                            <span>1</span>
-
-                            <small>
-                                Sangat Rendah
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="environmentalImpact"
-                                value="2"
-                            >
-
-                            <span>2</span>
-
-                            <small>
-                                Rendah
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="environmentalImpact"
-                                value="3"
-                            >
-
-                            <span>3</span>
-
-                            <small>
-                                Sedang
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="environmentalImpact"
-                                value="4"
-                            >
-
-                            <span>4</span>
-
-                            <small>
-                                Tinggi
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="environmentalImpact"
-                                value="5"
-                            >
-
-                            <span>5</span>
-
-                            <small>
-                                Sangat Tinggi
-                            </small>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 05 — SIRKULARITAS
-            ================================================== -->
-
-            <section class="evaluation-card">
-
-                <div class="evaluation-title">
-
-                    <div class="step-number">
-                        05
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            CIRCULARITY
-                        </span>
-
-                        <h2>
-                            Potensi Ekonomi Sirkular
-                        </h2>
-
-                        <p>
-                            Seberapa baik limbah dapat
-                            dikembalikan menjadi sumber daya.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="evaluation-question">
-
-                    <label>
-                        Seberapa kuat prinsip circular
-                        economy diterapkan?
-                    </label>
-
-                    <div class="rating-grid">
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="circularity"
-                                value="1"
-                                required
-                            >
-
-                            <span>1</span>
-
-                            <small>
-                                Sangat Rendah
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="circularity"
-                                value="2"
-                            >
-
-                            <span>2</span>
-
-                            <small>
-                                Rendah
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="circularity"
-                                value="3"
-                            >
-
-                            <span>3</span>
-
-                            <small>
-                                Sedang
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="circularity"
-                                value="4"
-                            >
-
-                            <span>4</span>
-
-                            <small>
-                                Tinggi
-                            </small>
-
-                        </label>
-
-
-                        <label class="rating-option">
-
-                            <input
-                                type="radio"
-                                name="circularity"
-                                value="5"
-                            >
-
-                            <span>5</span>
-
-                            <small>
-                                Sangat Tinggi
-                            </small>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 06 — CATATAN
-            ================================================== -->
-
-            <section class="evaluation-card">
-
-                <div class="evaluation-title">
-
-                    <div class="step-number">
-                        06
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            FEEDBACK
-                        </span>
-
-                        <h2>
-                            Catatan Evaluasi
-                        </h2>
-
-                        <p>
-                            Tambahkan pertimbangan atau
-                            kendala implementasi.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Catatan
-                    </label>
-
-                    <textarea
-                        name="notes"
-                        rows="6"
-                        placeholder="Tuliskan kendala, kebutuhan, atau saran pengembangan..."
-                    ></textarea>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 SUBMIT
-            ================================================== -->
-
-            <section class="evaluation-submit">
-
-                <button
-                    type="submit"
-                    class="btn-primary"
-                >
-
-                    Selesaikan Evaluasi
-
-                    <span>
-                        →
-                    </span>
-
-                </button>
-
-            </section>
-
-
-        </form>
-
-
-
-        <!-- =================================================
-             FINAL RESULT
-        ================================================== -->
-
-        <section
-            id="evaluationResult"
-            class="evaluation-final"
-            style="display:none;"
+        <a
+            href="index.html"
+            class="nav-back"
         >
+            Beranda
+        </a>
 
-            <div class="final-icon">
-                ✓
-            </div>
 
-            <span class="section-label">
-                EVALUATION COMPLETED
+        <a
+            href="result.html"
+            class="nav-back"
+        >
+            Hasil Analisis
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="evaluation-container">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <section class="evaluation-header">
+
+        <span class="section-label">
+            SIRASENTA • FINAL EVALUATION
+        </span>
+
+
+        <h1>
+            Evaluasi Rekomendasi
+        </h1>
+
+
+        <p>
+            Evaluasi akhir digunakan untuk menilai
+            kelayakan, kesiapan teknologi, potensi ekonomi,
+            dampak lingkungan, dan tingkat sirkularitas
+            dari alternatif yang direkomendasikan SIRASENTA.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         RECOMMENDATION SUMMARY
+    ================================================== -->
+
+    <section class="evaluation-summary">
+
+        <div class="summary-icon">
+            ♻️
+        </div>
+
+
+        <div>
+
+            <span>
+                REKOMENDASI SIRASENTA
             </span>
 
-            <h2>
-                Evaluasi Berhasil Disimpan
+
+            <h2 id="evaluationWinner">
+                Memuat rekomendasi...
             </h2>
 
-            <p id="finalMessage">
-                -
-            </p>
 
+            <p>
 
-            <div class="final-score">
+                Skor:
 
-                <span>
-                    Evaluation Score
-                </span>
-
-                <strong id="finalScore">
+                <strong id="evaluationScore">
                     -
                 </strong>
 
-                <small>
-                    /100
-                </small>
+                /100
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         WARNING IF NO RESULT
+    ================================================== -->
+
+    <div
+        id="noResultMessage"
+        style="
+            display:none;
+            margin-bottom:25px;
+            padding:18px;
+            border-radius:12px;
+            background:#fff8df;
+            border:1px solid #f1dc87;
+            color:#665827;
+        "
+    >
+
+        <strong>
+            Belum ada hasil analisis.
+        </strong>
+
+        <p style="margin:7px 0 0;">
+            Silakan lakukan analisis terlebih dahulu
+            sebelum melakukan evaluasi.
+        </p>
+
+
+        <br>
+
+
+        <a
+            href="analysis.html"
+            class="btn-primary"
+        >
+            Mulai Analisis →
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         EVALUATION FORM
+    ================================================== -->
+
+    <form id="evaluationForm">
+
+
+        <!-- =================================================
+             01 — KELAYAKAN
+        ================================================== -->
+
+        <section class="evaluation-card">
+
+            <div class="evaluation-title">
+
+                <div class="step-number">
+                    01
+                </div>
+
+
+                <div>
+
+                    <span class="section-label">
+                        FEASIBILITY
+                    </span>
+
+
+                    <h2>
+                        Kelayakan Implementasi
+                    </h2>
+
+
+                    <p>
+                        Seberapa realistis alternatif
+                        tersebut diterapkan pada usaha?
+                    </p>
+
+                </div>
 
             </div>
 
 
-            <div class="final-actions">
+            <div class="evaluation-question">
 
-                <a
-                    href="result.html"
-                    class="btn-secondary"
-                >
-                    ← Lihat Hasil
-                </a>
+                <label>
+                    Seberapa layak alternatif
+                    tersebut diterapkan?
+                </label>
 
-                <a
-                    href="analysis.html"
-                    class="btn-primary"
-                >
-                    Analisis Baru
-                </a>
+
+                <div class="rating-grid">
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="feasibility"
+                            value="1"
+                            required
+                        >
+                        <span>1</span>
+                        <small>Sangat Tidak Layak</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="feasibility"
+                            value="2"
+                        >
+                        <span>2</span>
+                        <small>Tidak Layak</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="feasibility"
+                            value="3"
+                        >
+                        <span>3</span>
+                        <small>Cukup Layak</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="feasibility"
+                            value="4"
+                        >
+                        <span>4</span>
+                        <small>Layak</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="feasibility"
+                            value="5"
+                        >
+                        <span>5</span>
+                        <small>Sangat Layak</small>
+                    </label>
+
+                </div>
 
             </div>
 
         </section>
 
-    </main>
+
+
+        <!-- =================================================
+             02 — TEKNOLOGI
+        ================================================== -->
+
+        <section class="evaluation-card">
+
+            <div class="evaluation-title">
+
+                <div class="step-number">
+                    02
+                </div>
+
+
+                <div>
+
+                    <span class="section-label">
+                        TECHNOLOGY
+                    </span>
+
+
+                    <h2>
+                        Kesiapan Teknologi
+                    </h2>
+
+
+                    <p>
+                        Nilai kesiapan teknologi
+                        untuk implementasi.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="evaluation-question">
+
+                <label>
+                    Seberapa siap teknologi
+                    untuk diterapkan?
+                </label>
+
+
+                <div class="rating-grid">
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="technologyReadiness"
+                            value="1"
+                            required
+                        >
+                        <span>1</span>
+                        <small>Sangat Tidak Siap</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="technologyReadiness"
+                            value="2"
+                        >
+                        <span>2</span>
+                        <small>Tidak Siap</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="technologyReadiness"
+                            value="3"
+                        >
+                        <span>3</span>
+                        <small>Cukup</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="technologyReadiness"
+                            value="4"
+                        >
+                        <span>4</span>
+                        <small>Siap</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="technologyReadiness"
+                            value="5"
+                        >
+                        <span>5</span>
+                        <small>Sangat Siap</small>
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
 
 
 
-    <!-- =====================================================
-         SCRIPT
-    ====================================================== -->
+        <!-- =================================================
+             03 — EKONOMI
+        ================================================== -->
 
-    <script src="database.js"></script>
-    <script src="script.js"></script>
+        <section class="evaluation-card">
+
+            <div class="evaluation-title">
+
+                <div class="step-number">
+                    03
+                </div>
 
 
-    <script>
+                <div>
+
+                    <span class="section-label">
+                        ECONOMIC
+                    </span>
+
+
+                    <h2>
+                        Potensi Ekonomi
+                    </h2>
+
+
+                    <p>
+                        Evaluasi potensi nilai ekonomi
+                        dari alternatif.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="evaluation-question">
+
+                <label>
+                    Seberapa besar potensi ekonomi
+                    dari penerapan alternatif?
+                </label>
+
+
+                <div class="rating-grid">
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="economicPotential"
+                            value="1"
+                            required
+                        >
+                        <span>1</span>
+                        <small>Sangat Rendah</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="economicPotential"
+                            value="2"
+                        >
+                        <span>2</span>
+                        <small>Rendah</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="economicPotential"
+                            value="3"
+                        >
+                        <span>3</span>
+                        <small>Sedang</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="economicPotential"
+                            value="4"
+                        >
+                        <span>4</span>
+                        <small>Tinggi</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="economicPotential"
+                            value="5"
+                        >
+                        <span>5</span>
+                        <small>Sangat Tinggi</small>
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             04 — LINGKUNGAN
+        ================================================== -->
+
+        <section class="evaluation-card">
+
+            <div class="evaluation-title">
+
+                <div class="step-number">
+                    04
+                </div>
+
+
+                <div>
+
+                    <span class="section-label">
+                        ENVIRONMENT
+                    </span>
+
+
+                    <h2>
+                        Dampak Lingkungan
+                    </h2>
+
+
+                    <p>
+                        Evaluasi kontribusi alternatif
+                        terhadap pengurangan limbah.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="evaluation-question">
+
+                <label>
+                    Seberapa besar dampak positif
+                    terhadap lingkungan?
+                </label>
+
+
+                <div class="rating-grid">
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="environmentalImpact"
+                            value="1"
+                            required
+                        >
+                        <span>1</span>
+                        <small>Sangat Rendah</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="environmentalImpact"
+                            value="2"
+                        >
+                        <span>2</span>
+                        <small>Rendah</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="environmentalImpact"
+                            value="3"
+                        >
+                        <span>3</span>
+                        <small>Sedang</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="environmentalImpact"
+                            value="4"
+                        >
+                        <span>4</span>
+                        <small>Tinggi</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="environmentalImpact"
+                            value="5"
+                        >
+                        <span>5</span>
+                        <small>Sangat Tinggi</small>
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             05 — SIRKULARITAS
+        ================================================== -->
+
+        <section class="evaluation-card">
+
+            <div class="evaluation-title">
+
+                <div class="step-number">
+                    05
+                </div>
+
+
+                <div>
+
+                    <span class="section-label">
+                        CIRCULARITY
+                    </span>
+
+
+                    <h2>
+                        Potensi Ekonomi Sirkular
+                    </h2>
+
+
+                    <p>
+                        Seberapa baik limbah dapat
+                        dikembalikan menjadi sumber daya.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="evaluation-question">
+
+                <label>
+                    Seberapa kuat prinsip circular
+                    economy diterapkan?
+                </label>
+
+
+                <div class="rating-grid">
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="circularity"
+                            value="1"
+                            required
+                        >
+                        <span>1</span>
+                        <small>Sangat Rendah</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="circularity"
+                            value="2"
+                        >
+                        <span>2</span>
+                        <small>Rendah</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="circularity"
+                            value="3"
+                        >
+                        <span>3</span>
+                        <small>Sedang</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="circularity"
+                            value="4"
+                        >
+                        <span>4</span>
+                        <small>Tinggi</small>
+                    </label>
+
+
+                    <label class="rating-option">
+                        <input
+                            type="radio"
+                            name="circularity"
+                            value="5"
+                        >
+                        <span>5</span>
+                        <small>Sangat Tinggi</small>
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             06 — CATATAN
+        ================================================== -->
+
+        <section class="evaluation-card">
+
+            <div class="evaluation-title">
+
+                <div class="step-number">
+                    06
+                </div>
+
+
+                <div>
+
+                    <span class="section-label">
+                        FEEDBACK
+                    </span>
+
+
+                    <h2>
+                        Catatan Evaluasi
+                    </h2>
+
+
+                    <p>
+                        Tambahkan pertimbangan atau
+                        kendala implementasi.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="notes">
+                    Catatan
+                </label>
+
+
+                <textarea
+                    id="notes"
+                    name="notes"
+                    rows="6"
+                    placeholder="Tuliskan kendala, kebutuhan, atau saran pengembangan..."
+                ></textarea>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUBMIT
+        ================================================== -->
+
+        <section class="evaluation-submit">
+
+            <button
+                type="submit"
+                id="submitEvaluation"
+                class="btn-primary"
+            >
+
+                Selesaikan Evaluasi
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </section>
+
+
+    </form>
+
+
+
+    <!-- =================================================
+         FINAL RESULT
+    ================================================== -->
+
+    <section
+        id="evaluationResult"
+        class="evaluation-final"
+        style="display:none;"
+    >
+
+        <div class="final-icon">
+            ✓
+        </div>
+
+
+        <span class="section-label">
+            EVALUATION COMPLETED
+        </span>
+
+
+        <h2>
+            Evaluasi Berhasil Disimpan
+        </h2>
+
+
+        <p id="finalMessage">
+            -
+        </p>
+
+
+        <div class="final-score">
+
+            <span>
+                Evaluation Score
+            </span>
+
+
+            <strong id="finalScore">
+                -
+            </strong>
+
+
+            <small>
+                /100
+            </small>
+
+        </div>
+
+
+        <div class="final-actions">
+
+            <a
+                href="result.html"
+                class="btn-secondary"
+            >
+                ← Lihat Hasil
+            </a>
+
+
+            <a
+                href="analysis.html"
+                class="btn-primary"
+            >
+                Analisis Baru
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SCRIPT
+====================================================== -->
+
+<script src="database.js"></script>
+<script src="script.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
 
         /* =================================================
-           LOAD RECOMMENDATION
+           GET LATEST RESULT
         ================================================= */
 
-        function loadRecommendation() {
+        function getSirasentaResult() {
 
-            const result =
-                getLatestResult();
-
+            /*
+             * PRIORITAS 1
+             * Jika script.js memiliki getLatestResult()
+             */
 
             if (
-                !result ||
-                !result.recommendation
+                typeof window.getLatestResult ===
+                "function"
             ) {
 
-                document.getElementById(
-                    "evaluationWinner"
-                ).textContent =
-                    "Belum ada rekomendasi";
+                try {
 
+                    const result =
+                        window.getLatestResult();
 
-                document.getElementById(
-                    "evaluationScore"
-                ).textContent =
-                    "-";
+                    if (result) {
+                        return result;
+                    }
 
+                } catch (error) {
 
-                return;
+                    console.warn(
+                        "getLatestResult gagal:",
+                        error
+                    );
+
+                }
 
             }
 
 
-            document.getElementById(
-                "evaluationWinner"
-            ).textContent =
-                result.recommendation
-                    .alternativeName;
+
+            /*
+             * PRIORITAS 2
+             * Cari berbagai kemungkinan key
+             * hasil analisis.
+             */
+
+            const possibleKeys = [
+
+                "sirasentaResult",
+
+                "sirasentaAnalysisResult",
+
+                "sirasenta_latest_result",
+
+                "latestSirasentaResult",
+
+                "analysisResult",
+
+                "sirasenta_result"
+
+            ];
 
 
-            document.getElementById(
-                "evaluationScore"
-            ).textContent =
-                result.recommendation.score;
+            for (
+                const key of possibleKeys
+            ) {
+
+                const stored =
+                    localStorage.getItem(key);
+
+
+                if (!stored) {
+                    continue;
+                }
+
+
+                try {
+
+                    const parsed =
+                        JSON.parse(stored);
+
+
+                    if (
+                        parsed &&
+                        (
+                            parsed.ranking ||
+                            parsed.recommendation
+                        )
+                    ) {
+
+                        return parsed;
+
+                    }
+
+                } catch (error) {
+
+                    console.warn(
+                        "Data localStorage tidak valid:",
+                        key
+                    );
+
+                }
+
+            }
+
+
+            return null;
 
         }
 
 
 
         /* =================================================
-           CALCULATE EVALUATION SCORE
+           FIND RECOMMENDATION
+        ================================================= */
+
+        function getRecommendation(
+            result
+        ) {
+
+            if (!result) {
+                return null;
+            }
+
+
+            if (
+                result.recommendation &&
+                result.recommendation
+                    .alternativeName
+            ) {
+
+                return {
+
+                    name:
+                        result.recommendation
+                            .alternativeName,
+
+                    score:
+                        result.recommendation.score
+
+                };
+
+            }
+
+
+            if (
+                result.ranking &&
+                result.ranking.length
+            ) {
+
+                const winner =
+                    result.ranking[0];
+
+
+                return {
+
+                    name:
+                        winner.name,
+
+                    score:
+                        winner.finalScore
+
+                };
+
+            }
+
+
+            return null;
+
+        }
+
+
+
+        /* =================================================
+           LOAD RECOMMENDATION
+        ================================================= */
+
+        const result =
+            getSirasentaResult();
+
+
+        const recommendation =
+            getRecommendation(result);
+
+
+        const winnerElement =
+            document.getElementById(
+                "evaluationWinner"
+            );
+
+
+        const scoreElement =
+            document.getElementById(
+                "evaluationScore"
+            );
+
+
+        const noResultMessage =
+            document.getElementById(
+                "noResultMessage"
+            );
+
+
+        const evaluationForm =
+            document.getElementById(
+                "evaluationForm"
+            );
+
+
+
+        if (!recommendation) {
+
+            winnerElement.textContent =
+                "Belum ada rekomendasi";
+
+
+            scoreElement.textContent =
+                "-";
+
+
+            noResultMessage.style.display =
+                "block";
+
+
+            evaluationForm.style.display =
+                "none";
+
+
+        } else {
+
+            winnerElement.textContent =
+                recommendation.name;
+
+
+            scoreElement.textContent =
+                recommendation.score ??
+                "-";
+
+        }
+
+
+
+        /* =================================================
+           CALCULATE SCORE
         ================================================= */
 
         function calculateEvaluationScore(
@@ -1027,23 +1169,22 @@
 
             const total =
                 values.reduce(
-                    (sum, value) =>
-                        sum + value,
+                    function (
+                        sum,
+                        value
+                    ) {
+
+                        return sum + value;
+
+                    },
                     0
                 );
 
 
-            /*
-             * Maksimal:
-             *
-             * 5 indikator × 5
-             * = 25
-             *
-             * Konversi ke 100.
-             */
-
             return Math.round(
-                (total / 25) * 100
+                (
+                    total / 25
+                ) * 100
             );
 
         }
@@ -1061,10 +1202,13 @@
             if (score >= 85) {
 
                 return {
+
                     title:
                         "Sangat Siap Diterapkan",
+
                     message:
                         "Alternatif menunjukkan tingkat kesiapan implementasi yang sangat baik."
+
                 };
 
             }
@@ -1073,10 +1217,13 @@
             if (score >= 70) {
 
                 return {
+
                     title:
                         "Siap dengan Penyesuaian",
+
                     message:
                         "Alternatif cukup siap diterapkan, tetapi masih membutuhkan beberapa penyesuaian."
+
                 };
 
             }
@@ -1085,20 +1232,26 @@
             if (score >= 55) {
 
                 return {
+
                     title:
                         "Membutuhkan Pengembangan",
+
                     message:
                         "Alternatif memiliki potensi, tetapi diperlukan pengembangan sebelum implementasi penuh."
+
                 };
 
             }
 
 
             return {
+
                 title:
                     "Belum Siap",
+
                 message:
                     "Alternatif memerlukan evaluasi teknis dan ekonomi lebih lanjut."
+
             };
 
         }
@@ -1106,26 +1259,112 @@
 
 
         /* =================================================
-           SUBMIT
+           SAVE EVALUATION
         ================================================= */
 
-        document.getElementById(
-            "evaluationForm"
-        ).addEventListener(
+        function saveEvaluationData(
+            evaluation
+        ) {
+
+            /*
+             * Simpan evaluasi dengan key utama.
+             */
+
+            localStorage.setItem(
+                "sirasentaEvaluation",
+                JSON.stringify(
+                    evaluation
+                )
+            );
+
+
+            /*
+             * Backup key agar kompatibel
+             * dengan script.js apabila diperlukan.
+             */
+
+            localStorage.setItem(
+                "latestEvaluation",
+                JSON.stringify(
+                    evaluation
+                )
+            );
+
+
+
+            /*
+             * Jika script.js memiliki
+             * saveEvaluation(), gunakan juga.
+             */
+
+            if (
+                typeof window.saveEvaluation ===
+                "function"
+            ) {
+
+                try {
+
+                    window.saveEvaluation(
+                        evaluation
+                    );
+
+                } catch (error) {
+
+                    console.warn(
+                        "saveEvaluation() gagal:",
+                        error
+                    );
+
+                }
+
+            }
+
+        }
+
+
+
+        /* =================================================
+           FORM SUBMIT
+        ================================================= */
+
+        evaluationForm.addEventListener(
             "submit",
-            function(event) {
+            function (event) {
 
                 event.preventDefault();
 
 
+                /*
+                 * Pastikan hasil analisis
+                 * benar-benar tersedia.
+                 */
+
+                if (!recommendation) {
+
+                    alert(
+                        "Belum ada hasil analisis. Silakan lakukan analisis terlebih dahulu."
+                    );
+
+                    window.location.href =
+                        "analysis.html";
+
+                    return;
+
+                }
+
+
+
                 const formData =
-                    new FormData(this);
+                    new FormData(
+                        evaluationForm
+                    );
 
 
                 const data =
                     Object.fromEntries(
                         formData.entries()
                     );
+
 
 
                 const score =
@@ -1140,42 +1379,98 @@
                     );
 
 
+
                 /*
-                 * Simpan melalui
-                 * fungsi script.js.
+                 * DATA FINAL
                  */
 
-                saveEvaluation({
+                const evaluation = {
 
-                    ...data,
+                    alternativeName:
+                        recommendation.name,
 
-                    score,
+                    originalScore:
+                        recommendation.score,
+
+                    feasibility:
+                        Number(
+                            data.feasibility
+                        ),
+
+                    technologyReadiness:
+                        Number(
+                            data.technologyReadiness
+                        ),
+
+                    economicPotential:
+                        Number(
+                            data.economicPotential
+                        ),
+
+                    environmentalImpact:
+                        Number(
+                            data.environmentalImpact
+                        ),
+
+                    circularity:
+                        Number(
+                            data.circularity
+                        ),
+
+                    notes:
+                        data.notes || "",
+
+                    score:
+                        score,
 
                     level:
-                        level.title
+                        level.title,
 
-                });
+                    message:
+                        level.message,
+
+                    evaluatedAt:
+                        new Date()
+                            .toISOString()
+
+                };
+
 
 
                 /*
-                 * Sembunyikan form.
+                 * SIMPAN
                  */
 
-                this.style.display =
+                saveEvaluationData(
+                    evaluation
+                );
+
+
+
+                /*
+                 * HILANGKAN FORM
+                 */
+
+                evaluationForm.style.display =
                     "none";
 
 
+                noResultMessage.style.display =
+                    "none";
+
+
+
                 /*
-                 * Tampilkan hasil akhir.
+                 * TAMPILKAN HASIL
                  */
 
-                const result =
+                const finalResult =
                     document.getElementById(
                         "evaluationResult"
                     );
 
 
-                result.style.display =
+                finalResult.style.display =
                     "block";
 
 
@@ -1188,23 +1483,30 @@
                 document.getElementById(
                     "finalMessage"
                 ).textContent =
-                    `${level.title}. ${level.message}`;
+                    level.title +
+                    ". " +
+                    level.message;
+
+
+
+                /*
+                 * Scroll ke hasil.
+                 */
+
+                finalResult.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
 
             }
         );
 
+    }
 
+);
 
-        /* =================================================
-           INITIALIZE
-        ================================================= */
+</script>
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            loadRecommendation
-        );
-
-    </script>
 
 </body>
 
