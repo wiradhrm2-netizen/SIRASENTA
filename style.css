@@ -2273,4 +2273,508 @@ textarea {
         width: 100%;
     }
 
+/* =====================================================
+   SIRASENTA — EVALUATION PAGE
+===================================================== */
+
+.evaluation-container {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 55px 0 80px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.evaluation-header {
+    margin-bottom: 35px;
+}
+
+.evaluation-header h1 {
+    margin: 10px 0 14px;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+}
+
+.evaluation-header p {
+    max-width: 700px;
+    color: var(--text-soft);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =====================================================
+   RECOMMENDATION SUMMARY
+===================================================== */
+
+.evaluation-summary {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding: 24px;
+
+    margin-bottom: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4eaf1;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 25px rgba(20, 50, 90, 0.05);
+}
+
+.summary-icon {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 14px;
+
+    background: var(--blue-light);
+
+    font-size: 26px;
+}
+
+.evaluation-summary span {
+    display: block;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: .1em;
+
+    color: var(--text-soft);
+}
+
+.evaluation-summary h2 {
+    margin: 5px 0;
+
+    font-size: 20px;
+
+    color: var(--navy);
+}
+
+.evaluation-summary p {
+    margin: 0;
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   EVALUATION CARD
+===================================================== */
+
+.evaluation-card {
+    margin-bottom: 22px;
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4eaf1;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 25px rgba(20, 50, 90, 0.04);
+}
+
+.evaluation-title {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 28px;
+}
+
+.step-number {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background: var(--blue-light);
+
+    color: var(--blue);
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.evaluation-title h2 {
+    margin: 4px 0 7px;
+
+    font-size: 20px;
+
+    color: var(--navy);
+}
+
+.evaluation-title p {
+    margin: 0;
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   QUESTION
+===================================================== */
+
+.evaluation-question > label {
+    display: block;
+
+    margin-bottom: 15px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: var(--navy);
+}
+
+
+/* =====================================================
+   RATING GRID
+===================================================== */
+
+.rating-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 10px;
+}
+
+.rating-option {
+    position: relative;
+
+    cursor: pointer;
+
+    text-align: center;
+}
+
+.rating-option input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.rating-option span {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    height: 52px;
+
+    margin-bottom: 8px;
+
+    border: 1px solid #dfe6ee;
+
+    border-radius: 11px;
+
+    background: #f9fbfd;
+
+    color: var(--navy);
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    transition:
+        .2s ease;
+}
+
+.rating-option small {
+    display: block;
+
+    color: var(--text-soft);
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+
+/* HOVER */
+
+.rating-option:hover span {
+    border-color: var(--blue);
+
+    background: var(--blue-light);
+
+    color: var(--blue);
+}
+
+
+/* SELECTED */
+
+.rating-option input:checked + span {
+    background: var(--blue);
+
+    border-color: var(--blue);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 6px 16px rgba(30, 105, 190, 0.18);
+}
+
+.rating-option input:checked ~ small {
+    color: var(--blue);
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   TEXTAREA
+===================================================== */
+
+.evaluation-card textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    min-height: 130px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #dfe6ee;
+
+    border-radius: 11px;
+
+    background: #fbfcfe;
+
+    color: var(--navy);
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition: .2s ease;
+}
+
+.evaluation-card textarea:focus {
+    border-color: var(--blue);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(30, 105, 190, 0.08);
+}
+
+
+/* =====================================================
+   SUBMIT
+===================================================== */
+
+.evaluation-submit {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 28px;
+}
+
+.evaluation-submit .btn-primary {
+    min-width: 220px;
+
+    justify-content: center;
+}
+
+
+/* =====================================================
+   FINAL RESULT
+===================================================== */
+
+.evaluation-final {
+    padding: 45px 30px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e4eaf1;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(20, 50, 90, 0.06);
+}
+
+.final-icon {
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 18px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: var(--blue-light);
+
+    color: var(--blue);
+
+    font-size: 25px;
+
+    font-weight: 800;
+}
+
+.evaluation-final h2 {
+    margin: 10px 0;
+
+    font-size: 25px;
+
+    color: var(--navy);
+}
+
+.evaluation-final p {
+    max-width: 600px;
+
+    margin: 0 auto 25px;
+
+    color: var(--text-soft);
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.final-score {
+    margin: 25px auto;
+
+    padding: 20px;
+
+    width: min(300px, 100%);
+
+    border-radius: 14px;
+
+    background: var(--blue-light);
+}
+
+.final-score span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+
+    color: var(--text-soft);
+}
+
+.final-score strong {
+    font-size: 42px;
+
+    color: var(--blue);
+}
+
+.final-score small {
+    font-size: 12px;
+
+    color: var(--text-soft);
+}
+
+.final-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .evaluation-container {
+        width: min(100% - 24px, 1120px);
+
+        padding-top: 35px;
+    }
+
+    .evaluation-card {
+        padding: 20px;
+    }
+
+    .evaluation-summary {
+        padding: 18px;
+    }
+
+    .rating-grid {
+        grid-template-columns:
+            repeat(5, minmax(0, 1fr));
+
+        gap: 6px;
+    }
+
+    .rating-option span {
+        height: 45px;
+
+        font-size: 15px;
+    }
+
+    .rating-option small {
+        font-size: 8px;
+    }
+
+    .final-actions {
+        flex-direction: column;
+    }
+
+    .final-actions a {
+        width: 100%;
+
+        box-sizing: border-box;
+
+        text-align: center;
+    }
+
 }
