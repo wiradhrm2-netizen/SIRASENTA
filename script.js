@@ -1,182 +1,180 @@
-/* =========================================================
-   SIRASENTA
-   MAIN ANALYSIS ENGINE
-   File: script.js
-
-   Alur:
-   analysis.html
-        ↓
-   Validasi input
-        ↓
-   Ambil database alternatif
-        ↓
-   Penyesuaian karakteristik limbah
-        ↓
-   Penyesuaian kondisi UMKM
-        ↓
-   Normalisasi MCDA
-        ↓
-   Weighted Score
-        ↓
-   Ranking alternatif
-        ↓
-   Simpan hasil
-        ↓
-   result.html
-========================================================= */
+/*
+=========================================================
+SIRASENTA ENGINE
+MCDA + LocalStorage
+=========================================================
+*/
 
 
-/* =========================================================
-   1. CONFIGURATION
-========================================================= */
+/* ======================================================
+   KONFIGURASI
+====================================================== */
 
-const SIRASENTA_CONFIG = {
+const STORAGE_INPUT =
+    "sirasenta_input";
 
-    storageKey:
-        "sirasentaAnalysis",
+const STORAGE_RESULT =
+    "sirasenta_result";
 
-    resultKey:
-        "sirasentaResult",
-
-    evaluationKey:
-        "sirasentaEvaluation",
-
-    version:
-        "1.0.0"
-
-};
+const STORAGE_EVALUATION =
+    "sirasenta_evaluation";
 
 
 
-/* =========================================================
-   2. BASIC HELPERS
-========================================================= */
+/* ======================================================
+   LEVEL → SCORE
+====================================================== */
 
+function levelToScore(value) {
 
-/**
- * Mengambil data analisis dari localStorage.
- */
-function getAnalysisData() {
+    const scores = {
 
-    const raw =
-        localStorage.getItem(
-            SIRASENTA_CONFIG.storageKey
-        );
+        rendah: 40,
 
-    if (!raw) {
+        sedang: 70,
 
-        return null;
+        tinggi: 100
 
-    }
+    };
 
-    try {
-
-        return JSON.parse(raw);
-
-    } catch (error) {
-
-        console.error(
-            "Gagal membaca data analisis:",
-            error
-        );
-
-        return null;
-
-    }
+    return scores[value] || 70;
 
 }
 
 
 
-/**
- * Menyimpan data.
- */
-function saveResult(data) {
+/* ======================================================
+   WASTE FACTOR
+====================================================== */
 
-    localStorage.setItem(
+function getWasteFactor(
+    wasteType
+) {
 
-        SIRASENTA_CONFIG.resultKey,
+    const factors = {
 
-        JSON.stringify(data)
+        "ampas-tahu": 1.00,
 
-    );
+        "kulit-kedelai": 0.95,
 
-}
+        "air-limbah-tahu": 0.80,
 
+        "campuran": 0.90
 
+    };
 
-/**
- * Membatasi nilai 0–100.
- */
-function clamp(value, min = 0, max = 100) {
-
-    return Math.max(
-        min,
-        Math.min(max, value)
-    );
+    return factors[wasteType] || 0.90;
 
 }
 
 
 
-/**
- * Membulatkan angka.
- */
-function round(value, decimals = 2) {
+/* ======================================================
+   SCALE FACTOR
+====================================================== */
 
-    const factor =
-        Math.pow(10, decimals);
+function getScaleFactor(
+    scale
+) {
 
-    return Math.round(
-        value * factor
-    ) / factor;
+    const factors = {
 
-}
+        kecil: 0.95,
 
+        menengah: 1.00,
 
+        besar: 1.05
 
-/**
- * Mengubah string menjadi angka.
- */
-function number(value) {
+    };
 
-    const result =
-        Number(value);
-
-    return Number.isFinite(result)
-        ? result
-        : 0;
+    return factors[scale] || 1;
 
 }
 
 
 
-/* =========================================================
-   3. VALIDASI BOBOT
-========================================================= */
+/* ======================================================
+   TECHNOLOGY FACTOR
+====================================================== */
+
+function getTechnologyFactor(
+    technology
+) {
+
+    const factors = {
+
+        rendah: 0.90,
+
+        sedang: 1.00,
+
+        tinggi: 1.05
+
+    };
+
+    return factors[technology] || 1;
+
+}
 
 
-/**
- * Membaca bobot MCDA.
- */
-function getWeights(data) {
 
-    const weights = {
+/* ======================================================
+   BUDGET FACTOR
+====================================================== */
+
+function getBudgetFactor(
+    budget
+) {
+
+    const factors = {
+
+        rendah: 0.90,
+
+        sedang: 1.00,
+
+        tinggi: 1.05
+
+    };
+
+    return factors[budget] || 1;
+
+}
+
+
+
+/* ======================================================
+   NORMALIZE WEIGHT
+====================================================== */
+
+function normalizeWeights(
+    data
+) {
+
+    let weights = {
 
         economic:
-            number(data.weightEconomic),
+            Number(
+                data.weightEconomic
+            ) || 25,
 
         environment:
-            number(data.weightEnvironment),
+            Number(
+                data.weightEnvironment
+            ) || 25,
 
         technical:
-            number(data.weightTechnical),
+            Number(
+                data.weightTechnical
+            ) || 20,
 
         circularity:
-            number(data.weightCircularity),
+            Number(
+                data.weightCircularity
+            ) || 20,
 
         social:
-            number(data.weightSocial)
+            Number(
+                data.weightSocial
+            ) || 10
 
     };
 
@@ -190,628 +188,41 @@ function getWeights(data) {
             );
 
 
-    if (total !== 100) {
+    if (total <= 0) {
 
-        throw new Error(
-            `Total bobot harus 100%. Saat ini ${total}%.`
-        );
+        return {
 
-    }
+            economic: 0.25,
 
+            environment: 0.25,
 
-    /*
-     * Mengubah persen menjadi desimal.
-     *
-     * Contoh:
-     * 25 → 0.25
-     */
-    Object.keys(weights).forEach(key => {
+            technical: 0.20,
 
-        weights[key] =
-            weights[key] / 100;
+            circularity: 0.20,
 
-    });
+            social: 0.10
 
-
-    return weights;
-
-}
-
-
-
-/* =========================================================
-   4. DETEKSI KESESUAIAN LIMBAH
-========================================================= */
-
-
-/**
- * Menentukan apakah alternatif cocok
- * dengan jenis limbah.
- */
-function calculateWasteCompatibility(
-    alternative,
-    wasteType
-) {
-
-    if (!wasteType) {
-
-        return 1;
+        };
 
     }
-
-
-    /*
-     * Jika alternatif memang dirancang
-     * untuk jenis limbah tersebut.
-     */
-    if (
-        alternative.suitableWaste
-            .includes(wasteType)
-    ) {
-
-        return 1.08;
-
-    }
-
-
-    /*
-     * Jika tidak secara langsung cocok,
-     * skor sedikit diturunkan.
-     */
-    return 0.82;
-
-}
-
-
-
-/* =========================================================
-   5. PENYESUAIAN KONDISI LIMBAH
-========================================================= */
-
-
-/**
- * Menghitung faktor berdasarkan:
- *
- * - kadar air
- * - kandungan organik
- * - jenis limbah
- */
-function calculateWasteAdjustment(
-    alternative,
-    data
-) {
-
-    let factor = 1;
-
-
-    /*
-     * Kompatibilitas jenis limbah.
-     */
-    factor *=
-        calculateWasteCompatibility(
-            alternative,
-            data.wasteType
-        );
-
-
-    /*
-     * Kadar air.
-     */
-    if (
-        data.moisture &&
-        typeof getWasteFactor === "function"
-    ) {
-
-        factor *=
-            getWasteFactor(
-                "moisture",
-                data.moisture,
-                alternative.id
-            );
-
-    }
-
-
-    /*
-     * Kandungan organik.
-     */
-    if (
-        data.organicContent &&
-        typeof getWasteFactor === "function"
-    ) {
-
-        factor *=
-            getWasteFactor(
-                "organicContent",
-                data.organicContent,
-                alternative.id
-            );
-
-    }
-
-
-    return factor;
-
-}
-
-
-
-/* =========================================================
-   6. PENYESUAIAN KONDISI UMKM
-========================================================= */
-
-
-/**
- * Faktor implementasi berdasarkan:
- *
- * - skala
- * - teknologi
- * - budget
- */
-function calculateBusinessAdjustment(
-    alternative,
-    data
-) {
-
-    let factor = 1;
-
-
-    /*
-     * Skala usaha.
-     */
-    if (
-        data.businessScale &&
-        typeof getScaleFactor === "function"
-    ) {
-
-        factor *=
-            getScaleFactor(
-                data.businessScale,
-                alternative.id
-            );
-
-    }
-
-
-    /*
-     * Kesiapan teknologi.
-     */
-    if (
-        data.technology &&
-        typeof getTechnologyFactor === "function"
-    ) {
-
-        factor *=
-            getTechnologyFactor(
-                data.technology,
-                alternative.id
-            );
-
-    }
-
-
-    /*
-     * Kemampuan investasi.
-     */
-    if (
-        data.budget &&
-        typeof getBudgetFactor === "function"
-    ) {
-
-        factor *=
-            getBudgetFactor(
-                data.budget,
-                alternative.id
-            );
-
-    }
-
-
-    return factor;
-
-}
-
-
-
-/* =========================================================
-   7. PENYESUAIAN LAHAN
-========================================================= */
-
-
-/**
- * Alternatif yang membutuhkan lahan besar
- * akan kurang cocok jika lahan terbatas.
- */
-function calculateLandAdjustment(
-    alternative,
-    data
-) {
-
-    const land =
-        data.landAvailability;
-
-
-    if (!land) {
-
-        return 1;
-
-    }
-
-
-    let factor = 1;
-
-
-    if (
-        alternative.id === "compost"
-    ) {
-
-        if (land === "rendah") {
-
-            factor *= 0.88;
-
-        }
-
-        if (land === "tinggi") {
-
-            factor *= 1.05;
-
-        }
-
-    }
-
-
-    if (
-        alternative.id === "biogas"
-    ) {
-
-        if (land === "rendah") {
-
-            factor *= 0.80;
-
-        }
-
-        if (land === "tinggi") {
-
-            factor *= 1.05;
-
-        }
-
-    }
-
-
-    if (
-        alternative.id === "feed"
-    ) {
-
-        factor *= 1.02;
-
-    }
-
-
-    return factor;
-
-}
-
-
-
-/* =========================================================
-   8. PENYESUAIAN TENAGA KERJA
-========================================================= */
-
-
-/**
- * Alternatif dengan kebutuhan proses
- * lebih kompleks dipengaruhi oleh
- * ketersediaan SDM.
- */
-function calculateHumanResourceAdjustment(
-    alternative,
-    data
-) {
-
-    const level =
-        data.humanResource;
-
-
-    if (!level) {
-
-        return 1;
-
-    }
-
-
-    const score =
-        levelToScore(level);
-
-
-    let factor = 1;
-
-
-    /*
-     * Alternatif dengan proses teknis
-     * lebih kompleks.
-     */
-    const complexity = {
-
-        feed: 0.70,
-
-        compost: 0.35,
-
-        biogas: 0.90,
-
-        "liquid-fertilizer": 0.50,
-
-        "fermented-biomass": 0.55
-
-    };
-
-
-    const alternativeComplexity =
-        complexity[alternative.id]
-        || 0.5;
-
-
-    /*
-     * SDM rendah → penalti pada
-     * teknologi kompleks.
-     */
-    const adjustment =
-        1 +
-        ((score - 70) / 100)
-        * alternativeComplexity
-        * 0.10;
-
-
-    factor *= adjustment;
-
-
-    return factor;
-
-}
-
-
-
-/* =========================================================
-   9. PENYESUAIAN AKSES PASAR
-========================================================= */
-
-
-/**
- * Potensi pasar dapat memengaruhi
- * kelayakan ekonomi.
- */
-function calculateMarketAdjustment(
-    alternative,
-    data
-) {
-
-    const market =
-        data.marketAccess;
-
-
-    if (!market) {
-
-        return 1;
-
-    }
-
-
-    let factor = 1;
-
-
-    if (market === "rendah") {
-
-        /*
-         * Produk yang memerlukan
-         * pasar khusus sedikit diturunkan.
-         */
-        if (
-            alternative.id === "feed" ||
-            alternative.id === "liquid-fertilizer"
-        ) {
-
-            factor *= 0.95;
-
-        }
-
-    }
-
-
-    if (market === "tinggi") {
-
-        if (
-            alternative.id === "feed" ||
-            alternative.id === "compost" ||
-            alternative.id === "liquid-fertilizer"
-        ) {
-
-            factor *= 1.04;
-
-        }
-
-    }
-
-
-    return factor;
-
-}
-
-
-
-/* =========================================================
-   10. CALCULATE ADJUSTED SCORES
-========================================================= */
-
-
-/**
- * Menghasilkan skor alternatif setelah
- * memperhitungkan kondisi pengguna.
- */
-function calculateAdjustedScores(
-    alternative,
-    data
-) {
-
-    const base =
-        alternative.baseScore;
-
-
-    const wasteAdjustment =
-        calculateWasteAdjustment(
-            alternative,
-            data
-        );
-
-
-    const businessAdjustment =
-        calculateBusinessAdjustment(
-            alternative,
-            data
-        );
-
-
-    const landAdjustment =
-        calculateLandAdjustment(
-            alternative,
-            data
-        );
-
-
-    const humanResourceAdjustment =
-        calculateHumanResourceAdjustment(
-            alternative,
-            data
-        );
-
-
-    const marketAdjustment =
-        calculateMarketAdjustment(
-            alternative,
-            data
-        );
-
-
-    /*
-     * Faktor total.
-     */
-    const totalFactor =
-        wasteAdjustment *
-        businessAdjustment *
-        landAdjustment *
-        humanResourceAdjustment *
-        marketAdjustment;
-
-
-    /*
-     * Terapkan faktor ke setiap kriteria.
-     *
-     * Tidak semua kriteria harus
-     * dipengaruhi sama kuat.
-     */
-    const scores = {
-
-        economic:
-            clamp(
-                base.economic *
-                (
-                    1 +
-                    (totalFactor - 1)
-                    * 0.80
-                )
-            ),
-
-        environment:
-            clamp(
-                base.environment *
-                (
-                    1 +
-                    (wasteAdjustment - 1)
-                    * 0.90
-                )
-            ),
-
-        technical:
-            clamp(
-                base.technical *
-                (
-                    1 +
-                    (
-                        businessAdjustment - 1
-                    ) * 0.90
-                )
-            ),
-
-        circularity:
-            clamp(
-                base.circularity *
-                (
-                    1 +
-                    (
-                        wasteAdjustment - 1
-                    ) * 0.75
-                )
-            ),
-
-        social:
-            clamp(
-                base.social *
-                (
-                    1 +
-                    (
-                        humanResourceAdjustment - 1
-                    ) * 0.50
-                )
-            )
-
-    };
 
 
     return {
 
-        baseScores: {
-            ...base
-        },
+        economic:
+            weights.economic / total,
 
-        adjustedScores: {
+        environment:
+            weights.environment / total,
 
-            economic:
-                round(scores.economic),
+        technical:
+            weights.technical / total,
 
-            environment:
-                round(scores.environment),
+        circularity:
+            weights.circularity / total,
 
-            technical:
-                round(scores.technical),
-
-            circularity:
-                round(scores.circularity),
-
-            social:
-                round(scores.social)
-
-        },
-
-        factors: {
-
-            waste:
-                round(wasteAdjustment, 4),
-
-            business:
-                round(businessAdjustment, 4),
-
-            land:
-                round(landAdjustment, 4),
-
-            humanResource:
-                round(humanResourceAdjustment, 4),
-
-            market:
-                round(marketAdjustment, 4),
-
-            total:
-                round(totalFactor, 4)
-
-        }
+        social:
+            weights.social / total
 
     };
 
@@ -819,518 +230,251 @@ function calculateAdjustedScores(
 
 
 
-/* =========================================================
-   11. NORMALISASI MCDA
-========================================================= */
+/* ======================================================
+   CALCULATE ALTERNATIVE
+====================================================== */
 
-
-/**
- * Normalisasi nilai setiap alternatif.
- *
- * Karena semua kriteria yang digunakan
- * bersifat benefit:
- *
- * normalized =
- * value / maximum value
- */
-function normalizeScores(
-    alternatives
-) {
-
-    const criteria = [
-        "economic",
-        "environment",
-        "technical",
-        "circularity",
-        "social"
-    ];
-
-
-    const maxima = {};
-
-
-    /*
-     * Cari nilai maksimum tiap kriteria.
-     */
-    criteria.forEach(criteriaId => {
-
-        maxima[criteriaId] =
-            Math.max(
-                ...alternatives.map(
-                    item =>
-                        item.adjustedScores[
-                            criteriaId
-                        ]
-                )
-            );
-
-    });
-
-
-    /*
-     * Normalisasi.
-     */
-    return alternatives.map(item => {
-
-        const normalized = {};
-
-
-        criteria.forEach(criteriaId => {
-
-            const value =
-                item.adjustedScores[
-                    criteriaId
-                ];
-
-
-            const max =
-                maxima[criteriaId];
-
-
-            normalized[criteriaId] =
-                max === 0
-                    ? 0
-                    : value / max;
-
-        });
-
-
-        return {
-
-            ...item,
-
-            normalizedScores:
-                normalized
-
-        };
-
-    });
-
-}
-
-
-
-/* =========================================================
-   12. WEIGHTED MCDA
-========================================================= */
-
-
-/**
- * Menghitung final weighted score.
- */
-function calculateWeightedScore(
-    alternatives,
+function calculateAlternative(
+    alternative,
+    input,
     weights
 ) {
 
-    return alternatives.map(item => {
-
-        let finalScore = 0;
-
-
-        const weighted = {};
+    const base =
+        alternative.scores;
 
 
-        Object.keys(weights)
-            .forEach(criteriaId => {
+    /*
+    Penyesuaian berdasarkan
+    karakteristik UMKM.
+    */
 
-                const normalized =
-                    item.normalizedScores[
-                        criteriaId
-                    ];
+    let technicalAdjustment = 1;
 
-
-                const weight =
-                    weights[criteriaId];
+    let economicAdjustment = 1;
 
 
-                const contribution =
-                    normalized *
-                    weight;
-
-
-                weighted[criteriaId] =
-                    contribution;
-
-
-                finalScore +=
-                    contribution;
-
-            });
-
-
-        return {
-
-            ...item,
-
-            weightedScores:
-                weighted,
-
-            finalScore:
-                round(
-                    finalScore * 100,
-                    2
-                )
-
-        };
-
-    });
-
-}
-
-
-
-/* =========================================================
-   13. RANKING
-========================================================= */
-
-
-/**
- * Mengurutkan alternatif berdasarkan
- * skor terbesar.
- */
-function rankAlternatives(
-    alternatives
-) {
-
-    const sorted =
-        [...alternatives]
-            .sort(
-                (a, b) =>
-                    b.finalScore -
-                    a.finalScore
-            );
-
-
-    return sorted.map(
-        (item, index) => ({
-
-            ...item,
-
-            rank:
-                index + 1
-
-        })
-    );
-
-}
-
-
-
-/* =========================================================
-   14. CONFIDENCE SCORE
-========================================================= */
-
-
-/**
- * Menghitung tingkat keyakinan rekomendasi.
- *
- * Ini bukan probabilitas statistik.
- * Nilainya merupakan indikator internal
- * berdasarkan:
- *
- * - gap ranking pertama dan kedua
- * - kelengkapan input
- * - kompatibilitas limbah
- */
-function calculateConfidence(
-    rankedAlternatives,
-    data
-) {
+    /*
+    Teknologi rendah
+    kurang cocok untuk
+    solusi kompleks.
+    */
 
     if (
-        rankedAlternatives.length < 2
+        input.technology === "rendah"
     ) {
 
-        return 0;
-
-    }
-
-
-    const first =
-        rankedAlternatives[0];
-
-
-    const second =
-        rankedAlternatives[1];
-
-
-    const scoreGap =
-        first.finalScore -
-        second.finalScore;
-
-
-    /*
-     * Komponen gap.
-     */
-    const gapScore =
-        clamp(
-            50 +
-            scoreGap * 4,
-            0,
-            100
-        );
-
-
-    /*
-     * Kelengkapan input.
-     */
-    const requiredFields = [
-
-        "businessName",
-
-        "businessType",
-
-        "businessScale",
-
-        "wasteType",
-
-        "wasteVolume",
-
-        "moisture",
-
-        "organicContent",
-
-        "landAvailability",
-
-        "budget",
-
-        "technology"
-
-    ];
-
-
-    let filled = 0;
-
-
-    requiredFields.forEach(field => {
-
         if (
-            data[field] !== undefined &&
-            data[field] !== null &&
-            data[field] !== ""
+            alternative.requirements
+                .technology === "tinggi"
         ) {
 
-            filled++;
+            technicalAdjustment =
+                0.82;
 
         }
 
-    });
+        else if (
+            alternative.requirements
+                .technology === "sedang"
+        ) {
 
+            technicalAdjustment =
+                0.93;
 
-    const completeness =
-        (
-            filled /
-            requiredFields.length
-        ) * 100;
+        }
+
+    }
 
 
     /*
-     * Gabungan indikator.
-     */
-    const confidence =
-        (
-            gapScore * 0.60
-        ) +
-        (
-            completeness * 0.40
-        );
+    Budget rendah.
+    */
 
+    if (
+        input.budget === "rendah"
+    ) {
 
-    return round(
-        clamp(
-            confidence,
-            0,
-            100
-        )
-    );
+        if (
+            alternative.requirements
+                .budget === "tinggi"
+        ) {
 
-}
+            economicAdjustment =
+                0.80;
 
+        }
 
+        else if (
+            alternative.requirements
+                .budget === "sedang"
+        ) {
 
-/* =========================================================
-   15. RECOMMENDATION LEVEL
-========================================================= */
+            economicAdjustment =
+                0.93;
 
-
-/**
- * Mengubah skor menjadi level rekomendasi.
- */
-function getRecommendationLevel(
-    score
-) {
-
-    if (score >= 85) {
-
-        return {
-
-            level: "Sangat Direkomendasikan",
-
-            color: "green",
-
-            description:
-                "Alternatif menunjukkan tingkat kesesuaian yang sangat tinggi berdasarkan parameter sistem."
-
-        };
+        }
 
     }
 
 
-    if (score >= 75) {
+    /*
+    Lahan terbatas.
+    */
 
-        return {
-
-            level: "Direkomendasikan",
-
-            color: "blue",
-
-            description:
-                "Alternatif memiliki kesesuaian yang baik dan layak dipertimbangkan."
-
-        };
-
-    }
+    let landAdjustment = 1;
 
 
-    if (score >= 65) {
+    if (
+        input.landAvailability === "rendah" &&
+        alternative.requirements.land === "sedang"
+    ) {
 
-        return {
-
-            level: "Cukup Direkomendasikan",
-
-            color: "yellow",
-
-            description:
-                "Alternatif memiliki potensi, tetapi membutuhkan perhatian terhadap beberapa faktor implementasi."
-
-        };
+        landAdjustment = 0.92;
 
     }
 
 
-    return {
+    /*
+    Waste factor.
+    */
 
-        level: "Perlu Evaluasi Lanjutan",
-
-        color: "red",
-
-        description:
-            "Alternatif membutuhkan validasi teknis dan ekonomi lebih lanjut."
-
-    };
-
-}
-
-
-
-/* =========================================================
-   16. GENERATE RECOMMENDATION
-========================================================= */
-
-
-/**
- * Membuat rekomendasi utama.
- */
-function generateRecommendation(
-    rankedAlternatives,
-    data
-) {
-
-    const winner =
-        rankedAlternatives[0];
-
-
-    if (!winner) {
-
-        return null;
-
-    }
-
-
-    const level =
-        getRecommendationLevel(
-            winner.finalScore
+    const wasteFactor =
+        getWasteFactor(
+            input.wasteType
         );
 
 
     /*
-     * Cari alasan utama.
-     */
-    const scoreEntries =
-        Object.entries(
-            winner.adjustedScores
-        );
+    Volume.
+    */
+
+    const volume =
+        Number(
+            input.wasteVolume
+        ) || 0;
 
 
-    scoreEntries.sort(
-        (a, b) =>
-            b[1] - a[1]
-    );
+    let volumeFactor = 1;
 
 
-    const strongestCriteria =
-        scoreEntries
-            .slice(0, 3)
-            .map(
-                item => item[0]
-            );
+    if (volume < 25) {
+
+        volumeFactor = 0.94;
+
+    }
+
+    else if (volume >= 100) {
+
+        volumeFactor = 1.03;
+
+    }
 
 
-    const criteriaNames = {
+    /*
+    Final score setiap kriteria.
+    */
+
+    const adjustedScores = {
 
         economic:
-            "efisiensi ekonomi",
+            Math.min(
+                100,
+                Math.round(
+                    base.economic *
+                    economicAdjustment *
+                    volumeFactor
+                )
+            ),
 
         environment:
-            "dampak lingkungan",
+            Math.min(
+                100,
+                Math.round(
+                    base.environment *
+                    wasteFactor
+                )
+            ),
 
         technical:
-            "kelayakan teknis",
+            Math.min(
+                100,
+                Math.round(
+                    base.technical *
+                    technicalAdjustment *
+                    landAdjustment
+                )
+            ),
 
         circularity:
-            "sirkularitas",
+            Math.min(
+                100,
+                Math.round(
+                    base.circularity *
+                    wasteFactor
+                )
+            ),
 
         social:
-            "dampak sosial"
+            Math.min(
+                100,
+                Math.round(
+                    base.social *
+                    getScaleFactor(
+                        input.businessScale
+                    )
+                )
+            )
 
     };
 
 
-    const reasons =
-        strongestCriteria.map(
-            criteria =>
-                criteriaNames[criteria]
-        );
+    /*
+    Weighted Sum Model.
+    */
+
+    const finalScore = Math.round(
+
+        (
+            adjustedScores.economic *
+            weights.economic
+
+        ) +
+
+        (
+            adjustedScores.environment *
+            weights.environment
+
+        ) +
+
+        (
+            adjustedScores.technical *
+            weights.technical
+
+        ) +
+
+        (
+            adjustedScores.circularity *
+            weights.circularity
+
+        ) +
+
+        (
+            adjustedScores.social *
+            weights.social
+
+        )
+
+    );
 
 
     return {
 
-        alternativeId:
-            winner.id,
+        ...alternative,
 
-        alternativeName:
-            winner.name,
+        adjustedScores,
 
-        score:
-            winner.finalScore,
-
-        rank:
-            winner.rank,
-
-        level:
-            level.level,
-
-        color:
-            level.color,
-
-        description:
-            level.description,
-
-        reasons,
-
-        explanation:
-            `${winner.name} memperoleh skor tertinggi sebesar ${winner.finalScore}/100. Faktor yang paling mendukung rekomendasi adalah ${reasons.join(", ")}.`
+        finalScore
 
     };
 
@@ -1338,237 +482,133 @@ function generateRecommendation(
 
 
 
-/* =========================================================
-   17. BUILD ANALYSIS RESULT
-========================================================= */
+/* ======================================================
+   RUN MCDA
+====================================================== */
 
-
-/**
- * Fungsi utama mesin SIRASENTA.
- */
-function runSirasentaAnalysis(
-    data
+function runMCDA(
+    input
 ) {
 
-    /*
-     * 1. Validasi.
-     */
-    if (!data) {
-
-        throw new Error(
-            "Data analisis tidak ditemukan."
-        );
-
-    }
-
-
-    /*
-     * 2. Bobot.
-     */
-    const weights =
-        getWeights(data);
-
-
-    /*
-     * 3. Ambil alternatif.
-     */
-    let alternatives =
+    const alternatives =
         getAlternatives();
 
 
-    /*
-     * 4. Hitung adjusted score.
-     */
-    alternatives =
+    const weights =
+        normalizeWeights(
+            input
+        );
+
+
+    let ranking =
         alternatives.map(
-            alternative => {
+            alternative =>
 
-                const calculation =
-                    calculateAdjustedScores(
-                        alternative,
-                        data
-                    );
+                calculateAlternative(
+                    alternative,
+                    input,
+                    weights
+                )
 
-
-                return {
-
-                    ...alternative,
-
-                    baseScores:
-                        calculation.baseScores,
-
-                    adjustedScores:
-                        calculation.adjustedScores,
-
-                    adjustmentFactors:
-                        calculation.factors
-
-                };
-
-            }
         );
 
 
     /*
-     * 5. Normalisasi.
-     */
-    alternatives =
-        normalizeScores(
-            alternatives
-        );
+    Sort highest score.
+    */
+
+    ranking.sort(
+        (a, b) =>
+            b.finalScore -
+            a.finalScore
+    );
 
 
     /*
-     * 6. Weighted score.
-     */
-    alternatives =
-        calculateWeightedScore(
-            alternatives,
-            weights
+    Tambahkan ranking.
+    */
+
+    ranking =
+        ranking.map(
+            (item, index) => ({
+
+                ...item,
+
+                rank:
+                    index + 1
+
+            })
         );
 
 
+    const winner =
+        ranking[0];
+
+
     /*
-     * 7. Ranking.
-     */
-    alternatives =
-        rankAlternatives(
-            alternatives
+    Confidence sederhana berdasarkan
+    selisih winner dengan runner-up.
+    */
+
+    const difference =
+        winner.finalScore -
+        (
+            ranking[1]
+                ?.finalScore || 0
         );
 
 
-    /*
-     * 8. Confidence.
-     */
     const confidence =
-        calculateConfidence(
-            alternatives,
-            data
+        Math.min(
+            98,
+            Math.max(
+                60,
+                Math.round(
+                    75 + difference * 1.5
+                )
+            )
         );
 
 
-    /*
-     * 9. Recommendation.
-     */
-    const recommendation =
-        generateRecommendation(
-            alternatives,
-            data
-        );
-
-
-    /*
-     * 10. Timestamp.
-     */
-    const timestamp =
-        new Date().toISOString();
-
-
-    /*
-     * 11. Final result.
-     */
     const result = {
 
-        meta: {
+        timestamp:
+            new Date().toISOString(),
 
-            system:
-                SIRASENTA_DATABASE.system.name,
+        input,
 
-            version:
-                SIRASENTA_CONFIG.version,
+        weights,
 
-            method:
-                SIRASENTA_DATABASE.system.method,
-
-            timestamp
-
-        },
-
-
-        input: {
-
-            ...data
-
-        },
-
-
-        weights: {
-
-            economic:
-                round(weights.economic * 100),
-
-            environment:
-                round(weights.environment * 100),
-
-            technical:
-                round(weights.technical * 100),
-
-            circularity:
-                round(weights.circularity * 100),
-
-            social:
-                round(weights.social * 100)
-
-        },
-
+        ranking,
 
         confidence,
 
+        recommendation: {
 
-        recommendation,
+            alternativeId:
+                winner.id,
 
+            alternativeName:
+                winner.name,
 
-        ranking:
-            alternatives.map(
-                item => ({
+            score:
+                winner.finalScore,
 
-                    id:
-                        item.id,
+            rank:
+                winner.rank,
 
-                    code:
-                        item.code,
+            level:
+                getRecommendationLevel(
+                    winner.finalScore
+                ),
 
-                    name:
-                        item.name,
+            explanation:
+                generateExplanation(
+                    winner,
+                    input
+                )
 
-                    category:
-                        item.category,
-
-                    icon:
-                        item.icon,
-
-                    rank:
-                        item.rank,
-
-                    finalScore:
-                        item.finalScore,
-
-                    adjustedScores:
-                        item.adjustedScores,
-
-                    normalizedScores:
-                        item.normalizedScores,
-
-                    weightedScores:
-                        item.weightedScores,
-
-                    adjustmentFactors:
-                        item.adjustmentFactors,
-
-                    evidence:
-                        item.evidence,
-
-                    requirements:
-                        item.requirements,
-
-                    risks:
-                        item.risks,
-
-                    process:
-                        item.process
-
-                })
-            )
+        }
 
     };
 
@@ -1579,141 +619,116 @@ function runSirasentaAnalysis(
 
 
 
-/* =========================================================
-   18. RUN FROM ANALYSIS PAGE
-========================================================= */
+/* ======================================================
+   RECOMMENDATION LEVEL
+====================================================== */
 
+function getRecommendationLevel(
+    score
+) {
 
-/**
- * Jalankan mesin ketika analysis.html dibuka.
- */
-function initializeAnalysisPage() {
+    if (score >= 85) {
 
-    const form =
-        document.getElementById(
-            "analysisForm"
-        );
-
-
-    /*
-     * Jika bukan halaman analysis,
-     * hentikan.
-     */
-    if (!form) {
-
-        return;
+        return "Sangat Direkomendasikan";
 
     }
 
+    if (score >= 75) {
 
-    form.addEventListener(
-        "submit",
-        function(event) {
+        return "Direkomendasikan";
 
-            event.preventDefault();
+    }
 
+    if (score >= 65) {
 
-            try {
+        return "Cukup Direkomendasikan";
 
-                /*
-                 * Ambil FormData.
-                 */
-                const formData =
-                    new FormData(form);
+    }
 
+    return "Perlu Kajian Lebih Lanjut";
 
-                const data =
-                    Object.fromEntries(
-                        formData.entries()
-                    );
+}
 
 
-                /*
-                 * Bobot harus valid.
-                 */
-                const weights =
-                    getWeights(data);
+
+/* ======================================================
+   EXPLANATION
+====================================================== */
+
+function generateExplanation(
+    winner,
+    input
+) {
+
+    const scores =
+        winner.adjustedScores;
 
 
-                if (!weights) {
-
-                    throw new Error(
-                        "Bobot tidak valid."
-                    );
-
-                }
-
-
-                /*
-                 * Jalankan analisis.
-                 */
-                const result =
-                    runSirasentaAnalysis(
-                        data
-                    );
+    const highest =
+        Object.entries(scores)
+            .sort(
+                (a, b) =>
+                    b[1] - a[1]
+            )[0];
 
 
-                /*
-                 * Simpan input.
-                 */
-                localStorage.setItem(
+    const criteriaName = {
 
-                    SIRASENTA_CONFIG.storageKey,
+        economic:
+            "ekonomi",
 
-                    JSON.stringify(data)
+        environment:
+            "lingkungan",
 
-                );
+        technical:
+            "teknis",
 
+        circularity:
+            "sirkularitas",
 
-                /*
-                 * Simpan hasil.
-                 */
-                saveResult(
-                    result
-                );
+        social:
+            "sosial"
 
-
-                /*
-                 * Arahkan ke hasil.
-                 */
-                window.location.href =
-                    "result.html";
+    };
 
 
-            } catch (error) {
+    return `${winner.name} memperoleh skor tertinggi sebesar ${winner.finalScore}/100. Kinerja terbaik terutama didukung oleh aspek ${criteriaName[highest[0]]} dengan skor ${highest[1]}/100, sehingga alternatif ini menjadi pilihan paling sesuai berdasarkan bobot dan karakteristik data yang dimasukkan.`;
 
-                console.error(
-                    error
-                );
+}
 
 
-                alert(
-                    error.message ||
-                    "Terjadi kesalahan saat melakukan analisis."
-                );
 
-            }
+/* ======================================================
+   SAVE RESULT
+====================================================== */
 
-        }
+function saveResult(
+    result
+) {
+
+    localStorage.setItem(
+
+        STORAGE_RESULT,
+
+        JSON.stringify(
+            result
+        )
+
     );
 
 }
 
 
 
-/* =========================================================
-   19. RESULT HELPERS
-========================================================= */
+/* ======================================================
+   GET RESULT
+====================================================== */
 
-
-/**
- * Mengambil hasil analisis terakhir.
- */
 function getLatestResult() {
 
     const raw =
         localStorage.getItem(
-            SIRASENTA_CONFIG.resultKey
+            STORAGE_RESULT
         );
 
 
@@ -1726,12 +741,16 @@ function getLatestResult() {
 
     try {
 
-        return JSON.parse(raw);
+        return JSON.parse(
+            raw
+        );
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
-            "Gagal membaca hasil:",
+            "Result tidak valid:",
             error
         );
 
@@ -1743,90 +762,37 @@ function getLatestResult() {
 
 
 
-/**
- * Mengambil alternatif pemenang.
- */
-function getWinner() {
+/* ======================================================
+   SAVE INPUT
+====================================================== */
 
-    const result =
-        getLatestResult();
-
-
-    if (
-        !result ||
-        !result.ranking ||
-        !result.ranking.length
-    ) {
-
-        return null;
-
-    }
-
-
-    return result.ranking[0];
-
-}
-
-
-
-/* =========================================================
-   20. EVALUATION DATA
-========================================================= */
-
-
-/**
- * Menyimpan data evaluasi.
- *
- * Dipakai oleh evaluation.html.
- */
-function saveEvaluation(
-    evaluationData
+function saveInput(
+    input
 ) {
-
-    const result =
-        getLatestResult();
-
-
-    const evaluation = {
-
-        createdAt:
-            new Date().toISOString(),
-
-        analysisTimestamp:
-            result?.meta?.timestamp || null,
-
-        winner:
-            result?.recommendation || null,
-
-        data:
-            evaluationData
-
-    };
-
 
     localStorage.setItem(
 
-        SIRASENTA_CONFIG.evaluationKey,
+        STORAGE_INPUT,
 
-        JSON.stringify(evaluation)
+        JSON.stringify(
+            input
+        )
 
     );
-
-
-    return evaluation;
 
 }
 
 
 
-/**
- * Mengambil evaluasi terakhir.
- */
-function getEvaluation() {
+/* ======================================================
+   GET INPUT
+====================================================== */
+
+function getLatestInput() {
 
     const raw =
         localStorage.getItem(
-            SIRASENTA_CONFIG.evaluationKey
+            STORAGE_INPUT
         );
 
 
@@ -1839,9 +805,13 @@ function getEvaluation() {
 
     try {
 
-        return JSON.parse(raw);
+        return JSON.parse(
+            raw
+        );
 
-    } catch (error) {
+    }
+
+    catch {
 
         return null;
 
@@ -1851,52 +821,218 @@ function getEvaluation() {
 
 
 
-/* =========================================================
-   21. EXPORT GLOBAL
-========================================================= */
+/* ======================================================
+   SAVE EVALUATION
+====================================================== */
 
-window.SIRASENTA_CONFIG =
-    SIRASENTA_CONFIG;
+function saveEvaluation(
+    evaluation
+) {
 
-
-window.getAnalysisData =
-    getAnalysisData;
-
-
-window.saveResult =
-    saveResult;
+    const result =
+        getLatestResult();
 
 
-window.runSirasentaAnalysis =
-    runSirasentaAnalysis;
+    const finalData = {
+
+        ...evaluation,
+
+        recommendation:
+            result
+                ?.recommendation
+                ?.alternativeName
+                || "-",
+
+        recommendationScore:
+            result
+                ?.recommendation
+                ?.score
+                || 0,
+
+        timestamp:
+            new Date().toISOString()
+
+    };
 
 
-window.getLatestResult =
-    getLatestResult;
+    localStorage.setItem(
 
+        STORAGE_EVALUATION,
 
-window.getWinner =
-    getWinner;
+        JSON.stringify(
+            finalData
+        )
 
+    );
 
-window.saveEvaluation =
-    saveEvaluation;
-
-
-window.getEvaluation =
-    getEvaluation;
+}
 
 
 
-/* =========================================================
-   22. INITIALIZE
-========================================================= */
+/* ======================================================
+   GET EVALUATION
+====================================================== */
+
+function getLatestEvaluation() {
+
+    const raw =
+        localStorage.getItem(
+            STORAGE_EVALUATION
+        );
+
+
+    if (!raw) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        return JSON.parse(
+            raw
+        );
+
+    }
+
+    catch {
+
+        return null;
+
+    }
+
+}
+
+
+
+/* ======================================================
+   ANALYSIS FORM
+====================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        initializeAnalysisPage();
+        const form =
+            document.getElementById(
+                "analysisForm"
+            );
+
+
+        if (!form) {
+
+            return;
+
+        }
+
+
+        form.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const formData =
+                    new FormData(
+                        form
+                    );
+
+
+                const input =
+                    Object.fromEntries(
+                        formData.entries()
+                    );
+
+
+                /*
+                Validasi bobot.
+                */
+
+                const weightTotal =
+
+                    (
+                        Number(
+                            input.weightEconomic
+                        ) || 0
+                    ) +
+
+                    (
+                        Number(
+                            input.weightEnvironment
+                        ) || 0
+                    ) +
+
+                    (
+                        Number(
+                            input.weightTechnical
+                        ) || 0
+                    ) +
+
+                    (
+                        Number(
+                            input.weightCircularity
+                        ) || 0
+                    ) +
+
+                    (
+                        Number(
+                            input.weightSocial
+                        ) || 0
+                    );
+
+
+                if (
+                    weightTotal !== 100
+                ) {
+
+                    alert(
+                        `Total bobot harus 100%. Saat ini ${weightTotal}%.`
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                Simpan input.
+                */
+
+                saveInput(
+                    input
+                );
+
+
+                /*
+                Jalankan MCDA.
+                */
+
+                const result =
+                    runMCDA(
+                        input
+                    );
+
+
+                /*
+                Simpan hasil.
+                */
+
+                saveResult(
+                    result
+                );
+
+
+                /*
+                Pindah ke result.
+                */
+
+                window.location.href =
+                    "result.html";
+
+            }
+        );
 
     }
 );
