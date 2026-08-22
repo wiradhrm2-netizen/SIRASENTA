@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="SIRASENTA - Analisis karakteristik limbah dan pemilihan alternatif pengolahan berbasis MCDA."
+    >
+
+    <title>Analisis Limbah | SIRASENTA</title>
+
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<header class="navbar">
+
+    <div class="navbar-container">
+
+        <a href="index.html" class="logo">
+
+            <div class="logo-icon">
+                S
+            </div>
+
+            <div class="logo-text">
+
+                <strong>
+                    SIRASENTA
+                </strong>
+
+                <span>
+                    Smart Waste Decision System
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <nav class="nav-menu">
+
+            <a href="index.html" class="nav-link">
+                Beranda
+            </a>
+
+            <a href="analysis.html" class="nav-link active">
+                Analisis
+            </a>
+
+            <a href="result.html" class="nav-link">
+                Hasil
+            </a>
+
+            <a href="evaluation.html" class="nav-link">
+                Evaluasi
+            </a>
+
+        </nav>
+
+
+        <div class="nav-button">
+            ANALYSIS MODE
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="page">
+
+
+    <!-- =================================================
+         PAGE TITLE
+    ================================================== -->
+
+    <section class="page-title">
+
+        <span class="section-label">
+            SIRASENTA / ANALYSIS ENGINE
+        </span>
+
+        <h1>
+            Analisis Profil
+            <span style="color: var(--blue);">
+                Limbah UMKM
+            </span>
+        </h1>
+
+        <p>
+            Masukkan data kondisi usaha dan karakteristik limbah.
+            Data ini akan digunakan sebagai dasar pemeringkatan
+            alternatif pengolahan menggunakan Multi-Criteria
+            Decision Analysis.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROGRESS
+    ================================================== -->
+
+    <div class="panel">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:20px;
+            margin-bottom:12px;
+        ">
+
+            <div>
+
+                <strong style="font-size:13px;">
+                    Tahap Analisis
+                </strong>
+
+                <div class="muted">
+                    Input → Analisis → Rekomendasi → Implementasi → Evaluasi
+                </div>
+
+            </div>
+
+            <strong
+                style="
+                    color:var(--blue);
+                    font-size:12px;
+                "
+            >
+                01 / 05
+            </strong>
+
+        </div>
+
+
+        <div
+            style="
+                width:100%;
+                height:7px;
+                background:#e9eef5;
+                border-radius:20px;
+                overflow:hidden;
+            "
+        >
+
+            <div
+                style="
+                    width:20%;
+                    height:100%;
+                    background:linear-gradient(
+                        90deg,
+                        var(--blue),
+                        var(--yellow)
+                    );
+                    border-radius:20px;
+                "
+            ></div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         FORM
+    ================================================== -->
+
+    <form id="analysisForm">
+
+
+        <!-- =================================================
+             SECTION 1 — PROFIL USAHA
+        ================================================== -->
+
+        <section class="panel">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-bottom:22px;
+                "
+            >
+
+                <div
+                    style="
+                        width:38px;
+                        height:38px;
+                        display:grid;
+                        place-items:center;
+                        border-radius:10px;
+                        background:var(--blue-light);
+                        color:var(--blue);
+                        font-weight:800;
+                    "
+                >
+                    01
+                </div>
+
+                <div>
+
+                    <h2 style="margin:0;">
+                        Profil Usaha
+                    </h2>
+
+                    <span class="muted">
+                        Identifikasi kondisi dasar UMKM.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid-2">
+
+
+                <!-- NAMA USAHA -->
+
+                <div class="form-group">
+
+                    <label for="businessName">
+                        Nama Usaha
+                    </label>
+
+                    <input
+                        type="text"
+                        id="businessName"
+                        name="businessName"
+                        placeholder="Contoh: UMKM Tahu Makmur"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- JENIS USAHA -->
+
+                <div class="form-group">
+
+                    <label for="businessType">
+                        Jenis Usaha
+                    </label>
+
+                    <select
+                        id="businessType"
+                        name="businessType"
+                        required
+                    >
+
+                        <option value="">
+                            Pilih jenis usaha
+                        </option>
+
+                        <option value="tahu">
+                            Produksi Tahu
+                        </option>
+
+                        <option value="tempe">
+                            Produksi Tempe
+                        </option>
+
+                        <option value="tahu-tempe">
+                            Tahu & Tempe
+                        </option>
+
+                        <option value="lainnya">
+                            Lainnya
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SKALA -->
+
+                <div class="form-group">
+
+                    <label for="businessScale">
+                        Skala Produksi
+                    </label>
+
+                    <select
+                        id="businessScale"
+                        name="businessScale"
+                        required
+                    >
+
+                        <option value="">
+                            Pilih skala
+                        </option>
+
+                        <option value="kecil">
+                            Kecil
+                        </option>
+
+                        <option value="menengah">
+                            Menengah
+                        </option>
+
+                        <option value="besar">
+                            Besar
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- LAMA OPERASI -->
+
+                <div class="form-group">
+
+                    <label for="operationDuration">
+                        Lama Operasional
+                    </label>
+
+                    <select
+                        id="operationDuration"
+                        name="operationDuration"
+                    >
+
+                        <option value="">
+                            Pilih
+                        </option>
+
+                        <option value="<1">
+                            < 1 tahun
+                        </option>
+
+                        <option value="1-3">
+                            1–3 tahun
+                        </option>
+
+                        <option value="3-5">
+                            3–5 tahun
+                        </option>
+
+                        <option value=">5">
+                            > 5 tahun
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SECTION 2 — DATA LIMBAH
+        ================================================== -->
+
+        <section class="panel">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-bottom:22px;
+                "
+            >
+
+                <div
+                    style="
+                        width:38px;
+                        height:38px;
+                        display:grid;
+                        place-items:center;
+                        border-radius:10px;
+                        background:var(--yellow-light);
+                        color:#9c7900;
+                        font-weight:800;
+                    "
+                >
+                    02
+                </div>
+
+                <div>
+
+                    <h2 style="margin:0;">
+                        Karakteristik Limbah
+                    </h2>
+
+                    <span class="muted">
+                        Data utama yang memengaruhi pilihan pengolahan.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid-2">
+
+
+                <!-- JENIS LIMBAH -->
+
+                <div class="form-group">
+
+                    <label for="wasteType">
+                        Jenis Limbah Utama
+                    </label>
+
+                    <select
+                        id="wasteType"
+                        name="wasteType"
+                        required
+                    >
+
+                        <option value="">
+                            Pilih jenis limbah
+                        </option>
+
+                        <option value="ampas-tahu">
+                            Ampas Tahu
+                        </option>
+
+                        <option value="air-limbah-tahu">
+                            Air Limbah Tahu
+                        </option>
+
+                        <option value="kulit-kedelai">
+                            Kulit Kedelai
+                        </option>
+
+                        <option value="campuran">
+                            Limbah Campuran
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- VOLUME -->
+
+                <div class="form-group">
+
+                    <label for="wasteVolume">
+                        Volume Limbah
+                    </label>
+
+                    <input
+                        type="number"
+                        id="wasteVolume"
+                        name="wasteVolume"
+                        min="0"
+                        step="0.1"
+                        placeholder="Contoh: 100"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- UNIT -->
+
+                <div class="form-group">
+
+                    <label for="wasteUnit">
+                        Satuan Volume
+                    </label>
+
+                    <select
+                        id="wasteUnit"
+                        name="wasteUnit"
+                    >
+
+                        <option value="kg/hari">
+                            kg/hari
+                        </option>
+
+                        <option value="liter/hari">
+                            liter/hari
+                        </option>
+
+                        <option value="kg/minggu">
+                            kg/minggu
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- KADAR AIR -->
+
+                <div class="form-group">
+
+                    <label for="moisture">
+                        Perkiraan Kadar Air
+                    </label>
+
+                    <select
+                        id="moisture"
+                        name="moisture"
+                    >
+
+                        <option value="">
+                            Pilih
+                        </option>
+
+                        <option value="rendah">
+                            Rendah
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Tinggi
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ORGANIK -->
+
+                <div class="form-group">
+
+                    <label for="organicContent">
+                        Kandungan Organik
+                    </label>
+
+                    <select
+                        id="organicContent"
+                        name="organicContent"
+                    >
+
+                        <option value="">
+                            Pilih
+                        </option>
+
+                        <option value="rendah">
+                            Rendah
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Tinggi
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- KONDISI LIMBAH -->
+
+                <div class="form-group">
+
+                    <label for="wasteCondition">
+                        Kondisi Limbah
+                    </label>
+
+                    <select
+                        id="wasteCondition"
+                        name="wasteCondition"
+                    >
+
+                        <option value="segar">
+                            Segar
+                        </option>
+
+                        <option value="campuran">
+                            Campuran
+                        </option>
+
+                        <option value="terkontaminasi">
+                            Berpotensi Terkontaminasi
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top:18px;">
+
+                <div class="form-group">
+
+                    <label for="wasteDescription">
+                        Catatan Tambahan
+                    </label>
+
+                    <textarea
+                        id="wasteDescription"
+                        name="wasteDescription"
+                        rows="4"
+                        placeholder="Tuliskan kondisi limbah, cara penanganan saat ini, kendala, atau informasi lain yang relevan..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SECTION 3 — KONDISI USAHA
+        ================================================== -->
+
+        <section class="panel">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-bottom:22px;
+                "
+            >
+
+                <div
+                    style="
+                        width:38px;
+                        height:38px;
+                        display:grid;
+                        place-items:center;
+                        border-radius:10px;
+                        background:var(--blue-light);
+                        color:var(--blue);
+                        font-weight:800;
+                    "
+                >
+                    03
+                </div>
+
+                <div>
+
+                    <h2 style="margin:0;">
+                        Kondisi Implementasi
+                    </h2>
+
+                    <span class="muted">
+                        Kemampuan usaha dalam menerapkan alternatif.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid-2">
+
+
+                <!-- LAHAN -->
+
+                <div class="form-group">
+
+                    <label for="landAvailability">
+                        Ketersediaan Lahan
+                    </label>
+
+                    <select
+                        id="landAvailability"
+                        name="landAvailability"
+                        required
+                    >
+
+                        <option value="">
+                            Pilih
+                        </option>
+
+                        <option value="rendah">
+                            Terbatas
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Luas
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- MODAL -->
+
+                <div class="form-group">
+
+                    <label for="budget">
+                        Kemampuan Investasi
+                    </label>
+
+                    <select
+                        id="budget"
+                        name="budget"
+                        required
+                    >
+
+                        <option value="">
+                            Pilih
+                        </option>
+
+                        <option value="rendah">
+                            Rendah
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Tinggi
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TENAGA -->
+
+                <div class="form-group">
+
+                    <label for="humanResource">
+                        Ketersediaan Tenaga Kerja
+                    </label>
+
+                    <select
+                        id="humanResource"
+                        name="humanResource"
+                    >
+
+                        <option value="rendah">
+                            Rendah
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Tinggi
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TEKNOLOGI -->
+
+                <div class="form-group">
+
+                    <label for="technology">
+                        Kesiapan Teknologi
+                    </label>
+
+                    <select
+                        id="technology"
+                        name="technology"
+                    >
+
+                        <option value="rendah">
+                            Rendah
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Tinggi
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- AIR -->
+
+                <div class="form-group">
+
+                    <label for="waterAccess">
+                        Akses Air
+                    </label>
+
+                    <select
+                        id="waterAccess"
+                        name="waterAccess"
+                    >
+
+                        <option value="rendah">
+                            Terbatas
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Baik
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PASAR -->
+
+                <div class="form-group">
+
+                    <label for="marketAccess">
+                        Akses Pasar
+                    </label>
+
+                    <select
+                        id="marketAccess"
+                        name="marketAccess"
+                    >
+
+                        <option value="rendah">
+                            Terbatas
+                        </option>
+
+                        <option value="sedang">
+                            Sedang
+                        </option>
+
+                        <option value="tinggi">
+                            Baik
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SECTION 4 — PRIORITAS MCDA
+        ================================================== -->
+
+        <section class="panel">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-bottom:10px;
+                "
+            >
+
+                <div
+                    style="
+                        width:38px;
+                        height:38px;
+                        display:grid;
+                        place-items:center;
+                        border-radius:10px;
+                        background:var(--yellow-light);
+                        color:#9c7900;
+                        font-weight:800;
+                    "
+                >
+                    04
+                </div>
+
+                <div>
+
+                    <h2 style="margin:0;">
+                        Prioritas Keputusan
+                    </h2>
+
+                    <span class="muted">
+                        Tentukan aspek yang paling penting bagi usaha.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <p
+                class="muted"
+                style="margin-bottom:22px;"
+            >
+                Total bobot harus berjumlah 100%.
+                Nilai ini akan digunakan oleh mesin MCDA.
+            </p>
+
+
+            <div class="grid-2">
+
+
+                <!-- EKONOMI -->
+
+                <div class="form-group">
+
+                    <label for="weightEconomic">
+                        Efisiensi Ekonomi (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weightEconomic"
+                        name="weightEconomic"
+                        min="0"
+                        max="100"
+                        value="25"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- LINGKUNGAN -->
+
+                <div class="form-group">
+
+                    <label for="weightEnvironment">
+                        Dampak Lingkungan (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weightEnvironment"
+                        name="weightEnvironment"
+                        min="0"
+                        max="100"
+                        value="25"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TEKNIS -->
+
+                <div class="form-group">
+
+                    <label for="weightTechnical">
+                        Kelayakan Teknis (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weightTechnical"
+                        name="weightTechnical"
+                        min="0"
+                        max="100"
+                        value="20"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CIRCULARITY -->
+
+                <div class="form-group">
+
+                    <label for="weightCircularity">
+                        Potensi Sirkularitas (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weightCircularity"
+                        name="weightCircularity"
+                        min="0"
+                        max="100"
+                        value="20"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SOSIAL -->
+
+                <div class="form-group">
+
+                    <label for="weightSocial">
+                        Dampak Sosial (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weightSocial"
+                        name="weightSocial"
+                        min="0"
+                        max="100"
+                        value="10"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TOTAL -->
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:flex-end;
+                    "
+                >
+
+                    <div
+                        style="
+                            width:100%;
+                            padding:15px;
+                            border-radius:12px;
+                            background:var(--blue-light);
+                            border:1px solid #d5e5fb;
+                        "
+                    >
+
+                        <span
+                            style="
+                                display:block;
+                                font-size:9px;
+                                color:var(--text-soft);
+                                font-weight:700;
+                                text-transform:uppercase;
+                                letter-spacing:.08em;
+                            "
+                        >
+                            Total Bobot
+                        </span>
+
+                        <strong
+                            id="weightTotal"
+                            style="
+                                display:block;
+                                margin-top:3px;
+                                font-size:24px;
+                                color:var(--blue);
+                            "
+                        >
+                            100%
+                        </strong>
+
+                        <small
+                            id="weightMessage"
+                            style="
+                                font-size:9px;
+                                color:#4f6076;
+                            "
+                        >
+                            Bobot sudah seimbang.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SECTION 5 — CONFIRMATION
+        ================================================== -->
+
+        <section class="panel">
+
+            <div
+                style="
+                    padding:17px;
+                    border-radius:12px;
+                    background:#fff9df;
+                    border:1px solid #f5df82;
+                    display:flex;
+                    gap:13px;
+                    align-items:flex-start;
+                "
+            >
+
+                <div
+                    style="
+                        width:30px;
+                        height:30px;
+                        border-radius:8px;
+                        background:var(--yellow);
+                        display:grid;
+                        place-items:center;
+                        color:var(--navy);
+                        font-weight:800;
+                        flex-shrink:0;
+                    "
+                >
+                    !
+                </div>
+
+                <div>
+
+                    <strong
+                        style="
+                            display:block;
+                            font-size:12px;
+                            margin-bottom:4px;
+                        "
+                    >
+                        Perhatikan sebelum analisis
+                    </strong>
+
+                    <p
+                        style="
+                            font-size:10px;
+                            color:#6f6235;
+                            line-height:1.7;
+                        "
+                    >
+                        Hasil SIRASENTA merupakan rekomendasi
+                        pendukung keputusan. Alternatif yang
+                        dipilih tetap perlu divalidasi berdasarkan
+                        keamanan, regulasi, kondisi teknis,
+                        dan hasil pengujian nyata.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTION -->
+
+            <div class="form-actions">
+
+                <a
+                    href="index.html"
+                    class="button button-secondary"
+                >
+                    ← Kembali
+                </a>
+
+
+                <button
+                    type="submit"
+                    id="runAnalysis"
+                    class="button button-primary"
+                >
+
+                    Jalankan Analisis
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+    </form>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+
+            <div class="logo">
+
+                <div class="logo-icon">
+                    S
+                </div>
+
+                <div class="logo-text">
+
+                    <strong>
+                        SIRASENTA
+                    </strong>
+
+                    <span>
+                        Smart Waste Decision System
+                    </span>
+
+                </div>
+
+            </div>
+
+            <p>
+                Sistem Integrasi dan Analisis Terpadu
+                Efisiensi serta Alternatif Pengolahan Limbah.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <div>
+
+                <strong>
+                    PLATFORM
+                </strong>
+
+                <a href="index.html">
+                    Beranda
+                </a>
+
+                <a href="analysis.html">
+                    Analisis
+                </a>
+
+                <a href="result.html">
+                    Hasil
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    PROSES
+                </strong>
+
+                <a href="implementation.html">
+                    Implementasi
+                </a>
+
+                <a href="evaluation.html">
+                    Evaluasi
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 SIRASENTA
+        </span>
+
+        <span>
+            Evidence-Based Circular Waste Decision Support
+        </span>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     TEMPORARY WEIGHT VALIDATION
+     Nanti dipindahkan/diintegrasikan ke script.js
+====================================================== -->
+
+<script>
+
+const weightInputs = [
+
+    document.getElementById("weightEconomic"),
+
+    document.getElementById("weightEnvironment"),
+
+    document.getElementById("weightTechnical"),
+
+    document.getElementById("weightCircularity"),
+
+    document.getElementById("weightSocial")
+
+];
+
+
+const totalElement =
+    document.getElementById("weightTotal");
+
+
+const messageElement =
+    document.getElementById("weightMessage");
+
+
+function updateWeightTotal() {
+
+    let total = 0;
+
+    weightInputs.forEach(input => {
+
+        total += Number(input.value) || 0;
+
+    });
+
+
+    totalElement.textContent =
+        total + "%";
+
+
+    if (total === 100) {
+
+        totalElement.style.color =
+            "var(--blue)";
+
+        messageElement.textContent =
+            "✓ Bobot sudah seimbang.";
+
+        messageElement.style.color =
+            "#26834b";
+
+    } else {
+
+        totalElement.style.color =
+            "#d64545";
+
+        messageElement.textContent =
+            "⚠ Total bobot harus tepat 100%.";
+
+        messageElement.style.color =
+            "#d64545";
+
+    }
+
+}
+
+
+weightInputs.forEach(input => {
+
+    input.addEventListener(
+        "input",
+        updateWeightTotal
+    );
+
+});
+
+
+/* =====================================================
+   FORM SUBMIT
+   Sementara menyimpan data ke localStorage.
+   Mesin MCDA final akan kita masukkan di script.js.
+===================================================== */
+
+document
+    .getElementById("analysisForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        const total =
+            weightInputs.reduce(
+                (sum, input) =>
+                    sum + (Number(input.value) || 0),
+                0
+            );
+
+
+        if (total !== 100) {
+
+            alert(
+                "Total bobot harus tepat 100% sebelum analisis dijalankan."
+            );
+
+            return;
+
+        }
+
+
+        const formData =
+            new FormData(this);
+
+
+        const data =
+            Object.fromEntries(formData.entries());
+
+
+        data.createdAt =
+            new Date().toISOString();
+
+
+        localStorage.setItem(
+            "sirasentaAnalysis",
+            JSON.stringify(data)
+        );
+
+
+        /*
+         * Untuk sementara diarahkan ke result.html.
+         * Nanti script.js akan melakukan perhitungan MCDA
+         * terlebih dahulu.
+         */
+
+        window.location.href =
+            "result.html";
+
+    });
+
+
+</script>
+
+
+</body>
+</html>
