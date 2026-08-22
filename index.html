@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SIRASENTA | Smart Waste Analysis System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVIGATION BAR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="container nav-container">
+
+            <!-- LOGO -->
+
+            <a href="#home" class="logo">
+
+                <div class="logo-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+
+                <div class="logo-text">
+                    <h1>SIRASENTA</h1>
+                    <span>Smart Waste Analysis</span>
+                </div>
+
+            </a>
+
+
+            <!-- MENU -->
+
+            <ul class="nav-menu">
+
+                <li>
+                    <a href="#home" class="nav-link active">
+                        Beranda
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#tentang" class="nav-link">
+                        Tentang
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#analisis" class="nav-link">
+                        Analisis
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#hasil" class="nav-link">
+                        Hasil
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <!-- BUTTON -->
+
+            <a href="#analisis" class="nav-button">
+
+                Mulai Analisis
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+
+    <section id="home" class="hero">
+
+        <div class="container hero-container">
+
+
+            <!-- LEFT CONTENT -->
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+
+                    <i class="fa-solid fa-sparkles"></i>
+
+                    <span>Smart Circular Innovation</span>
+
+                </div>
+
+
+                <h2>
+
+                    Ubah Limbah Menjadi
+                    <span>Keputusan Bernilai.</span>
+
+                </h2>
+
+
+                <p>
+
+                    SIRASENTA adalah platform integrasi dan analisis
+                    alternatif pengolahan limbah yang membantu UMKM
+                    tahu dan tempe menentukan solusi pemanfaatan residu
+                    secara lebih efektif, terukur, dan berkelanjutan.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a href="#analisis" class="primary-button">
+
+                        <span>Mulai Analisis</span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+
+                    <a href="#tentang" class="secondary-button">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span>Pelajari Sistem</span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- STATISTIC -->
+
+                <div class="hero-statistics">
+
+
+                    <div class="stat-item">
+
+                        <h3>4+</h3>
+
+                        <p>Alternatif Pengolahan</p>
+
+                    </div>
+
+
+                    <div class="stat-item">
+
+                        <h3>5</h3>
+
+                        <p>Kriteria Analisis</p>
+
+                    </div>
+
+
+                    <div class="stat-item">
+
+                        <h3>MCDA</h3>
+
+                        <p>Smart Decision System</p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RIGHT CONTENT / DASHBOARD PREVIEW -->
+
+            <div class="hero-dashboard">
+
+                <div class="dashboard-preview">
+
+
+                    <!-- DASHBOARD HEADER -->
+
+                    <div class="dashboard-header">
+
+                        <div>
+
+                            <p class="dashboard-label">
+                                SMART ANALYSIS
+                            </p>
+
+                            <h3>
+                                Waste Overview
+                            </h3>
+
+                        </div>
+
+
+                        <div class="system-status">
+
+                            <span class="status-dot"></span>
+
+                            System Active
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- MINI CARDS -->
+
+                    <div class="dashboard-cards">
+
+
+                        <div class="dashboard-card">
+
+                            <div class="card-icon blue-icon">
+
+                                <i class="fa-solid fa-recycle"></i>
+
+                            </div>
+
+                            <div>
+
+                                <p>Total Limbah</p>
+
+                                <h4>2.450 kg</h4>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="dashboard-card">
+
+                            <div class="card-icon yellow-icon">
+
+                                <i class="fa-solid fa-chart-line"></i>
+
+                            </div>
+
+                            <div>
+
+                                <p>Efisiensi</p>
+
+                                <h4>84%</h4>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- CHART -->
+
+                    <div class="chart-container">
+
+                        <div class="chart-title">
+
+                            <p>
+                                Potensi Pemanfaatan Limbah
+                            </p>
+
+                            <i class="fa-solid fa-ellipsis"></i>
+
+                        </div>
+
+
+                        <div class="bar-chart">
+
+                            <div class="chart-bar bar-one"></div>
+
+                            <div class="chart-bar bar-two"></div>
+
+                            <div class="chart-bar bar-three"></div>
+
+                            <div class="chart-bar bar-four"></div>
+
+                            <div class="chart-bar bar-five"></div>
+
+                        </div>
+
+
+                        <div class="chart-labels">
+
+                            <span>Pakan</span>
+
+                            <span>Kompos</span>
+
+                            <span>Biogas</span>
+
+                            <span>Produk</span>
+
+                            <span>Lainnya</span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RECOMMENDATION -->
+
+                    <div class="recommendation-card">
+
+                        <div class="recommendation-icon">
+
+                            <i class="fa-solid fa-lightbulb"></i>
+
+                        </div>
+
+
+                        <div class="recommendation-content">
+
+                            <span>
+                                REKOMENDASI UTAMA
+                            </span>
+
+                            <h4>
+                                Circular Feed
+                            </h4>
+
+                        </div>
+
+
+                        <div class="recommendation-score">
+
+                            92
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ABOUT SECTION
+    ========================== -->
+
+    <section id="tentang" class="about-section">
+
+        <div class="container">
+
+
+            <!-- SECTION HEADER -->
+
+            <div class="section-header center">
+
+                <div class="section-badge">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    Tentang Sistem
+
+                </div>
+
+
+                <h2>
+
+                    Data Limbah Menjadi
+                    <span>Strategi Berkelanjutan.</span>
+
+                </h2>
+
+
+                <p>
+
+                    SIRASENTA mengintegrasikan data limbah,
+                    parameter kelayakan, dan metode Multi-Criteria
+                    Decision Analysis untuk menghasilkan rekomendasi
+                    pengolahan yang sesuai dengan kondisi UMKM.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- FEATURE CARDS -->
+
+            <div class="feature-grid">
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="fa-solid fa-database"></i>
+
+                    </div>
+
+                    <h3>Data Integration</h3>
+
+                    <p>
+
+                        Mengintegrasikan jenis, volume,
+                        dan karakteristik limbah UMKM.
+
+                    </p>
+
+                </article>
+
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="fa-solid fa-sliders"></i>
+
+                    </div>
+
+                    <h3>Multi-Criteria Analysis</h3>
+
+                    <p>
+
+                        Membandingkan alternatif berdasarkan
+                        berbagai parameter kelayakan.
+
+                    </p>
+
+                </article>
+
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="fa-solid fa-ranking-star"></i>
+
+                    </div>
+
+                    <h3>Smart Ranking</h3>
+
+                    <p>
+
+                        Menampilkan urutan alternatif
+                        berdasarkan skor prioritas.
+
+                    </p>
+
+                </article>
+
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="fa-solid fa-arrows-rotate"></i>
+
+                    </div>
+
+                    <h3>Circular Solution</h3>
+
+                    <p>
+
+                        Mendorong pemanfaatan residu
+                        menuju sistem ekonomi sirkular.
+
+                    </p>
+
+                </article>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ANALYSIS SECTION
+    ========================== -->
+
+    <section id="analisis" class="analysis-section">
+
+        <div class="container analysis-container">
+
+
+            <!-- ANALYSIS INFORMATION -->
+
+            <div class="analysis-information">
+
+
+                <div class="section-badge">
+
+                    <i class="fa-solid fa-microchip"></i>
+
+                    Smart Analysis
+
+                </div>
+
+
+                <h2>
+
+                    Mulai Analisis
+                    <span>Limbah Anda.</span>
+
+                </h2>
+
+
+                <p>
+
+                    Masukkan informasi dasar mengenai
+                    limbah UMKM untuk memperoleh rekomendasi
+                    alternatif pengolahan yang paling sesuai.
+
+                </p>
+
+
+                <div class="criteria-list">
+
+
+                    <div class="criteria-item">
+
+                        <div class="criteria-number">
+                            01
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Potensi Pemanfaatan
+                            </h4>
+
+                            <p>
+                                Nilai guna dan peluang produk turunan.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="criteria-item">
+
+                        <div class="criteria-number">
+                            02
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Biaya Implementasi
+                            </h4>
+
+                            <p>
+                                Kebutuhan biaya dan investasi awal.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="criteria-item">
+
+                        <div class="criteria-number">
+                            03
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Dampak Lingkungan
+                            </h4>
+
+                            <p>
+                                Potensi pengurangan residu dan pencemaran.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="criteria-item">
+
+                        <div class="criteria-number">
+                            04
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Kemudahan Implementasi
+                            </h4>
+
+                            <p>
+                                Kesesuaian teknologi dengan kapasitas UMKM.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ANALYSIS FORM -->
+
+            <div class="analysis-form-container">
+
+
+                <div class="form-top">
+
+                    <div>
+
+                        <span>
+                            STEP 01
+                        </span>
+
+                        <h3>
+                            Input Data Limbah
+                        </h3>
+
+                    </div>
+
+
+                    <div class="form-top-icon">
+
+                        <i class="fa-solid fa-flask"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <form id="wasteForm">
+
+
+                    <!-- UMKM NAME -->
+
+                    <div class="form-group">
+
+                        <label for="namaUMKM">
+
+                            Nama UMKM
+
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-building"></i>
+
+                            <input
+                                type="text"
+                                id="namaUMKM"
+                                placeholder="Contoh: UMKM Tahu Makmur"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- WASTE TYPE -->
+
+                    <div class="form-group">
+
+                        <label for="jenisLimbah">
+
+                            Jenis Limbah
+
+                        </label>
+
+
+                        <select id="jenisLimbah">
+
+                            <option value="">
+                                Pilih jenis limbah
+                            </option>
+
+                            <option value="ampas_tahu">
+                                Ampas Tahu
+                            </option>
+
+                            <option value="ampas_tempe">
+                                Ampas Tempe
+                            </option>
+
+                            <option value="limbah_cair">
+                                Limbah Cair Produksi
+                            </option>
+
+                            <option value="campuran">
+                                Limbah Campuran
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- WASTE VOLUME -->
+
+                    <div class="form-group">
+
+                        <label for="volumeLimbah">
+
+                            Volume Limbah per Hari
+
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-weight-scale"></i>
+
+                            <input
+                                type="number"
+                                id="volumeLimbah"
+                                placeholder="Contoh: 250"
+                                min="0"
+                            >
+
+                            <span class="input-unit">
+                                kg
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- INVESTMENT -->
+
+                    <div class="form-group">
+
+                        <label for="investasi">
+
+                            Kapasitas Investasi
+
+                        </label>
+
+
+                        <select id="investasi">
+
+                            <option value="rendah">
+                                Rendah
+                            </option>
+
+                            <option value="sedang">
+                                Sedang
+                            </option>
+
+                            <option value="tinggi">
+                                Tinggi
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- ANALYSIS BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="analysis-button"
+                    >
+
+                        <span>
+
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                            Analisis Sekarang
+
+                        </span>
+
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         RESULT SECTION
+    ========================== -->
+
+    <section id="hasil" class="result-section">
+
+        <div class="container">
+
+
+            <!-- RESULT HEADER -->
+
+            <div class="result-header">
+
+                <div>
+
+                    <div class="section-badge">
+
+                        <i class="fa-solid fa-chart-pie"></i>
+
+                        Analysis Result
+
+                    </div>
+
+
+                    <h2>
+
+                        Rekomendasi
+                        <span>SIRASENTA.</span>
+
+                    </h2>
+
+                </div>
+
+
+                <p>
+
+                    Sistem akan menampilkan alternatif
+                    pengolahan berdasarkan hasil analisis
+                    Multi-Criteria Decision Analysis.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- EMPTY RESULT -->
+
+            <div
+                class="empty-result"
+                id="emptyResult"
+            >
+
+                <div class="empty-icon">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                </div>
+
+
+                <h3>
+
+                    Belum Ada Hasil Analisis
+
+                </h3>
+
+
+                <p>
+
+                    Masukkan data limbah terlebih dahulu,
+                    kemudian sistem akan menghasilkan
+                    rekomendasi pengolahan terbaik.
+
+                </p>
+
+
+                <a
+                    href="#analisis"
+                    class="primary-button"
+                >
+
+                    Mulai Analisis
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+
+            <!-- RESULT CONTENT -->
+            <!-- NANTI AKAN DIAKTIFKAN OLEH JAVASCRIPT -->
+
+            <div
+                class="result-content hidden"
+                id="resultContent"
+            >
+
+
+                <!-- BEST RECOMMENDATION -->
+
+                <div class="best-recommendation">
+
+                    <div class="best-label">
+
+                        <i class="fa-solid fa-trophy"></i>
+
+                        REKOMENDASI TERBAIK
+
+                    </div>
+
+
+                    <h3 id="bestRecommendation">
+
+                        Circular Feed
+
+                    </h3>
+
+
+                    <p id="recommendationDescription">
+
+                        Alternatif dengan nilai prioritas
+                        tertinggi berdasarkan parameter MCDA.
+
+                    </p>
+
+
+                    <div class="best-score">
+
+                        <span>Skor Kelayakan</span>
+
+                        <strong id="bestScore">
+                            92
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RANKING LIST -->
+
+                <div class="ranking-container">
+
+                    <div class="ranking-header">
+
+                        <h3>
+
+                            Ranking Alternatif
+
+                        </h3>
+
+                        <span>
+
+                            MCDA SCORE
+
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="ranking-list"
+                        id="rankingList"
+                    >
+
+                        <!-- JAVASCRIPT AKAN MENAMBAHKAN DATA -->
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+        <div class="container footer-container">
+
+
+            <div class="footer-brand">
+
+                <div class="logo">
+
+                    <div class="logo-icon">
+
+                        <i class="fa-solid fa-chart-pie"></i>
+
+                    </div>
+
+
+                    <div class="logo-text">
+
+                        <h2>SIRASENTA</h2>
+
+                        <span>
+                            Smart Waste Analysis
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <p>
+
+                    Sistem Integrasi dan Analisis Terpadu
+                    Efisiensi serta Alternatif Pengolahan Limbah
+                    untuk mendukung ekonomi sirkular pada UMKM
+                    tahu dan tempe.
+
+                </p>
+
+            </div>
+
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <h4>
+                        Navigasi
+                    </h4>
+
+                    <a href="#home">
+                        Beranda
+                    </a>
+
+                    <a href="#tentang">
+                        Tentang
+                    </a>
+
+                    <a href="#analisis">
+                        Analisis
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        Sistem
+                    </h4>
+
+                    <a href="#analisis">
+                        MCDA Analysis
+                    </a>
+
+                    <a href="#hasil">
+                        Rekomendasi
+                    </a>
+
+                    <a href="#hasil">
+                        Ranking
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+
+                © 2026 SIRASENTA.
+                Smart Circular Innovation.
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
